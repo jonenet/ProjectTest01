@@ -1,7 +1,5 @@
 package com.example.projecttest01.helper;
 
-import android.util.Log;
-
 import com.example.projecttest01.callback.CallBack;
 import com.example.projecttest01.callback.Fun;
 import com.lzy.okgo.OkGo;
@@ -64,6 +62,29 @@ public class ApiHelper {
                         });
             }
         };
+    }
+
+    public  static <T> AysncJob<T> create(final T t) {
+        return new AysncJob<T>() {
+            @Override
+            public void start(CallBack<T> callBack) {
+               callBack.onSuccess(t);
+            }
+        };
+    }
+
+    public void mapTest(){
+           create("1").map(new Fun<String, Integer>() {
+               @Override
+               public Integer call(String s) {
+                   return Integer.valueOf(s);
+               }
+           }).start(new CallBack<Integer>() {
+               @Override
+               public void onSuccess(Integer success) {
+
+               }
+           });
 
     }
 
