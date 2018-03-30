@@ -1,10 +1,11 @@
 package com.example.projecttest01.helper;
 
 import com.example.projecttest01.callback.CallBack;
-import com.example.projecttest01.callback.Fun;
+import com.example.projecttest01.coreapi.Fun;
 
 /**
  * Created by ex-zhoulai on 2018/3/29.
+ *
  */
 
 public abstract class AysncJob<T> {

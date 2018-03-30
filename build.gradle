@@ -25,6 +25,7 @@ allprojects {
 ext{
     butterknifeVersion = '8.6.+'
     okgo = '3.0.4'
+    reactiveStreamsVersion = '1.0.2'
 }
 
 task clean(type: Delete) {

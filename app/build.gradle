@@ -29,5 +29,6 @@ dependencies {
     implementation "com.jakewharton:butterknife:$rootProject.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.butterknifeVersion"
     implementation "com.lzy.net:okgo:$rootProject.okgo"
+    api "org.reactivestreams:reactive-streams:$rootProject.reactiveStreamsVersion"
 
 }

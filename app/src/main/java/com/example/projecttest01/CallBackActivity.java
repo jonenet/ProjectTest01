@@ -3,16 +3,17 @@ package com.example.projecttest01;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.example.projecttest01.callback.CallBack;
-import com.example.projecttest01.callback.Fun;
-import com.example.projecttest01.helper.ApiHelper;
-import com.example.projecttest01.helper.AysncJob;
+import com.example.projecttest01.coreapi.Fun;
+import com.example.projecttest01.coreapi.MyMapObserver;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * Created by ex-zhoulai on 2018/3/29.
@@ -31,6 +32,31 @@ public class CallBackActivity extends Activity {
 
     @OnClick(R.id.test_01)
     public void onViewClicked() {
+
+        Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+
+            }
+        }).lift(new MyMapObserver<String, String>(new Fun<String, String>() {
+            @Override
+            public String call(String s) {
+                return s;
+            }
+        })).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+
+            }
+        });
+
+//        Observable.empty()
+//        Observable.never()
+//        Observable.fromArray().subscribe()
+//        Observable.range(1,3)
+//        Observable.interval()
+//        Observable.timer()
+
 
 //        ApiHelper.getMethod("1").map(new Fun<Integer, String>() {
 //            @Override

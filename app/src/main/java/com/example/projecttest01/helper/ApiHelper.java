@@ -1,7 +1,7 @@
 package com.example.projecttest01.helper;
 
 import com.example.projecttest01.callback.CallBack;
-import com.example.projecttest01.callback.Fun;
+import com.example.projecttest01.coreapi.Fun;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
