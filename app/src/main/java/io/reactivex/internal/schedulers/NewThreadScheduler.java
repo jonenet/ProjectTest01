@@ -16,10 +16,10 @@
 
 package io.reactivex.internal.schedulers;
 
+import java.util.concurrent.ThreadFactory;
+
 import io.reactivex.Scheduler;
 import io.reactivex.annotations.NonNull;
-
-import java.util.concurrent.ThreadFactory;
 
 /**
  * Schedules work on a new thread.
@@ -40,6 +40,7 @@ public final class NewThreadScheduler extends Scheduler {
 
         THREAD_FACTORY = new RxThreadFactory(THREAD_NAME_PREFIX, priority);
     }
+
 
     public NewThreadScheduler() {
         this(THREAD_FACTORY);

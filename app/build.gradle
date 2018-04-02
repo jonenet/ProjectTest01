@@ -10,6 +10,15 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+//    aaptOptions {
+//        additionalParameters '--auto-add-overlay',
+//                '-S', './src/main/res2',
+//                '-S', './src/main/res1'
+//        noCompress 'foo', 'bar'
+//        ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:<dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~'
+//    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -31,4 +40,6 @@ dependencies {
     implementation "com.lzy.net:okgo:$rootProject.okgo"
     api "org.reactivestreams:reactive-streams:$rootProject.reactiveStreamsVersion"
 
+    api "com.google.dagger:dagger:2.14.1"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.14.1"
 }

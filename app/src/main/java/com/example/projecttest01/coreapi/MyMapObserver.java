@@ -1,8 +1,5 @@
 package com.example.projecttest01.coreapi;
 
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import io.reactivex.ObservableOperator;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -22,6 +19,7 @@ public class MyMapObserver<T, R> implements ObservableOperator<R, T> {
 
     @Override
     public Observer<? super T> apply(final Observer<? super R> observer) throws Exception {
+
         return new Observer<T>() {
 
             @Override

@@ -12,8 +12,9 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ex-zhoulai on 2018/3/29.
@@ -43,12 +44,15 @@ public class CallBackActivity extends Activity {
             public String call(String s) {
                 return s;
             }
-        })).subscribe(new Consumer<String>() {
+        })).subscribeOn(Schedulers.newThread()).subscribe(new Consumer<String>() {
             @Override
             public void accept(String s) throws Exception {
 
             }
         });
+
+        Scheduler scheduler = Schedulers.newThread();
+
 
 //        Observable.empty()
 //        Observable.never()

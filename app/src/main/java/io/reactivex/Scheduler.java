@@ -13,17 +13,19 @@
 
 package io.reactivex;
 
-import io.reactivex.annotations.*;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.exceptions.Exceptions;
 import io.reactivex.functions.Function;
-import io.reactivex.internal.disposables.*;
-import io.reactivex.internal.schedulers.*;
+import io.reactivex.internal.disposables.EmptyDisposable;
+import io.reactivex.internal.disposables.SequentialDisposable;
+import io.reactivex.internal.schedulers.NewThreadWorker;
+import io.reactivex.internal.schedulers.SchedulerWhen;
 import io.reactivex.internal.util.ExceptionHelper;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.SchedulerRunnableIntrospection;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * A {@code Scheduler} is an object that specifies an API for scheduling
