@@ -3,6 +3,7 @@ package com.example.projecttest01;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -26,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final Class[] classes = new Class[]{
             CallBackActivity.class
-
     };
     @BindView(R.id.btn_rxCall_back)
     Button btnRxCallBack;
@@ -39,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         DaggerMainComponent.builder().mainModule(new MainModule("name","gender")).build().inject(this);
-        if (null != bean) {
-            btnRxCallBack.setText(bean.getName());
-            btnRxCallBack2.setText(String.valueOf(bean.getGender()));
-        }
+        Log.e(TAG, "onCreate: " + bean);
 
-        String test = getString(R.string.test);
+//        DaggerMainComponent.builder().mainModule(new MainModule("name","gender")).build().inject(this);
+//        if (null != bean) {
+//            btnRxCallBack.setText(bean.getName());
+//            btnRxCallBack2.setText(String.valueOf(bean.getGender()));
+//        }
     }
 
     @OnClick({R.id.btn_rxCall_back, R.id.btn_rxCall_back_2})
