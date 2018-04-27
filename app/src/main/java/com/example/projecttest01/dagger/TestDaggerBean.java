@@ -1,22 +1,23 @@
 package com.example.projecttest01.dagger;
 
+import com.example.projecttest01.annotation.AnnoGender;
+import com.example.projecttest01.annotation.AnnoName;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 /**
- * Description:
- * Author     : jone
- * Date       : 2018/4/2 22:37
+ * Created by ex-zhoulai on 2018/4/3.
  */
 
 @Singleton
 public class TestDaggerBean {
 
-    String gender;
-    String name;
+    private String name;
+    private String gender;
 
     @Inject
-    public TestDaggerBean(@UserName String name, @Gender String gender) {
+    public TestDaggerBean(@AnnoName String name, @AnnoGender String gender) {
         this.name = name;
         this.gender = gender;
     }
@@ -33,7 +34,7 @@ public class TestDaggerBean {
         return gender;
     }
 
-//    public void setGender(String gender) {
-//        this.gender = gender;
-//    }
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 }

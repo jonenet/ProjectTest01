@@ -7,13 +7,12 @@ import javax.inject.Singleton;
 import dagger.Component;
 
 /**
- * Description:
- * Author     : jone
- * Date       : 2018/4/2 22:36
+ * Created by ex-zhoulai on 2018/4/3.
  */
 
 @Singleton
-@Component(modules  = MainModule.class)
+@Component(modules = MainModule.class)
 public interface MainComponent {
+
     void inject(MainActivity activity);
 }

@@ -9,8 +9,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/annotationdemo" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/daggerapp" />
+            <option value="$PROJECT_DIR$/dialogapp" />
+            <option value="$PROJECT_DIR$/lib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

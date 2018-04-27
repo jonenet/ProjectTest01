@@ -1,1 +1,1 @@
-include ':app', ':daggerapp'
+include ':app', ':dialogapp', ':annotationdemo', ':lib'

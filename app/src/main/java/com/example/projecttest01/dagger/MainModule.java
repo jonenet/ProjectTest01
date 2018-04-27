@@ -1,42 +1,40 @@
 package com.example.projecttest01.dagger;
 
+import com.example.projecttest01.annotation.AnnoGender;
+import com.example.projecttest01.annotation.AnnoName;
+
 import dagger.Module;
 import dagger.Provides;
 
 /**
- * Description:
- * Author     : jone
- * Date       : 2018/4/2 22:36
+ * Created by ex-zhoulai on 2018/4/3.
  */
-
 @Module
 public class MainModule {
 
-
-
     private String name;
     private String gender;
-    
-//    @Provides
-//    public TestDaggerBean provideTestBean() {
-//        return new TestDaggerBean(name,gender);
-//    }
-    
+
     public MainModule(String name, String gender) {
         this.name = name;
         this.gender = gender;
     }
 
-    @UserName
+    @AnnoName
     @Provides
-    public String provideName() {
+    public String providerName() {
         return name;
     }
 
-    @Gender
+    @AnnoGender
     @Provides
-    public String provideGender() {
+    public String providerGender() {
         return gender;
+    }
+
+    @Provides
+    public AnimalBean providerAnimal(){
+        return new AnimalBean("50cm");
     }
 
 }
