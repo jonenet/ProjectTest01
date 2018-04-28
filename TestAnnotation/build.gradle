@@ -4,5 +4,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
 
+
+
+tasks.withType(Javadoc) {
+    options.encoding = "UTF-8"
+}
+
+
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
