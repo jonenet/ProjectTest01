@@ -3,6 +3,21 @@ package com.example.annotationdemo;
 
 import com.example.annotationdemo.anno.TestAnnotation;
 import com.example.annotationdemo.processer.AnnoUseClass;
+import com.example.annotationdemo.test.CloneTestClass;
+import com.example.annotationdemo.test.bwl.Caretaker;
+import com.example.annotationdemo.test.bwl.Originator;
+import com.example.annotationdemo.test.daili.DynamicProxyTicketManager;
+import com.example.annotationdemo.test.daili.LogProxy;
+import com.example.annotationdemo.test.daili.StaticProxyTicketManager;
+import com.example.annotationdemo.test.daili.TicketManager;
+import com.example.annotationdemo.test.daili.TicketManagerImpl;
+import com.example.annotationdemo.test.zrl.FirstHandler;
+import com.example.annotationdemo.test.zrl.FiveHandler;
+import com.example.annotationdemo.test.zrl.ThirdHandler;
+import com.example.annotationdemo.test.zrl.ZRLHandler;
+import com.example.annotationdemo.test.zrl.ZRLLevel;
+import com.example.annotationdemo.test.zrl.ZRLRequest;
+import com.example.annotationdemo.test.zrl.ZRLResponse;
 
 
 import java.lang.reflect.Constructor;
@@ -19,6 +34,83 @@ public class TestClass {
     int index;
 
     public static void main(String[] args) {
+//        testAnnoMethod();
+//        testCloneMethod();
+//        testZRLMethod();
+//        testBwlMethod();
+        testProxyMethod();
+
+    }
+
+    private static void testProxyMethod() {
+        //这里有两层代理，代理日志和代理身份信息认证
+//        TicketManager tm=new LogProxy(new StaticProxyTicketManager(new TicketManagerImpl()));
+//        tm.soldTicket();
+//        tm.changeTicket();
+//        tm.returnTicket();
+
+        DynamicProxyTicketManager dynamicProxyTicketManager=new DynamicProxyTicketManager();
+        TicketManager tmDymic=(TicketManager) dynamicProxyTicketManager.newProxyInstance(new TicketManagerImpl());
+
+        tmDymic.soldTicket();
+        tmDymic.changeTicket();
+        tmDymic.returnTicket();
+    }
+
+
+    /**
+     * 备忘录
+     */
+    private static void testBwlMethod() {
+        Originator ori = new Originator();
+        Caretaker caretaker = new Caretaker();
+        ori.setState1("中国");
+        ori.setState2("强盛");
+        ori.setState3("繁荣");
+        System.out.println("===初始化状态===\n" + ori);
+
+        caretaker.setMemento("001", ori.createMemento());
+        ori.setState1("软件");
+        ori.setState2("架构");
+        ori.setState3("优秀");
+        System.out.println("===修改后状态===\n" + ori);
+
+        ori.restoreMemento(caretaker.getMemento("001"));
+        System.out.println("===恢复后状态===\n" + ori);
+    }
+
+
+    /**
+     * 责任链
+     */
+    private static void testZRLMethod() {
+        ZRLHandler handler1 = new FirstHandler();
+        ZRLHandler handler3 = new ThirdHandler();
+        ZRLHandler handler5 = new FiveHandler();
+
+        // this level = 1 , level = 3
+        handler1.setNextHandler(handler3);
+        handler3.setNextHandler(handler5);
+
+        // this level = 1 ,request level = 3
+        ZRLResponse response = handler1.handleRequest(new ZRLRequest(new ZRLLevel(6)));
+//        if (null != response) {
+//            response.print(4);
+//        } else {
+//            System.out.println("done");
+//        }
+    }
+
+
+    private static void testCloneMethod() {
+        CloneTestClass instance = CloneTestClass.getInstance();
+        System.out.println(instance);
+        CloneTestClass clone = instance.clone();
+        System.out.println(clone);
+    }
+
+
+    private static void testAnnoOthers() {
         try {
             AbstractProcessor processor;
             Class<?> annoClass = Class.forName("com.example.annotationdemo.processer.AnnoUseClass");
@@ -53,11 +145,9 @@ public class TestClass {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
-
-        testSelf();
     }
 
-    public static void testSelf() {
+    public static void testAnnoSelf() {
         boolean annotationPresent = TestClass.class.isAnnotationPresent(TestAnnotation.class);
         if (annotationPresent) {
             TestAnnotation annotation = TestClass.class.getAnnotation(TestAnnotation.class);
