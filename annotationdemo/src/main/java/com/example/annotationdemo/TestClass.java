@@ -8,6 +8,7 @@ import com.example.annotationdemo.test.bwl.Caretaker;
 import com.example.annotationdemo.test.bwl.Originator;
 import com.example.annotationdemo.test.daili.DynamicProxyTicketManager;
 import com.example.annotationdemo.test.daili.LogProxy;
+import com.example.annotationdemo.test.daili.ProxyUtils;
 import com.example.annotationdemo.test.daili.StaticProxyTicketManager;
 import com.example.annotationdemo.test.daili.TicketManager;
 import com.example.annotationdemo.test.daili.TicketManagerImpl;
@@ -50,11 +51,15 @@ public class TestClass {
 //        tm.returnTicket();
 
         DynamicProxyTicketManager dynamicProxyTicketManager=new DynamicProxyTicketManager();
-        TicketManager tmDymic=(TicketManager) dynamicProxyTicketManager.newProxyInstance(new TicketManagerImpl());
+        TicketManagerImpl ticketManager = new TicketManagerImpl();
+        TicketManager tmDymic=(TicketManager) dynamicProxyTicketManager.newProxyInstance(ticketManager);
 
         tmDymic.soldTicket();
         tmDymic.changeTicket();
         tmDymic.returnTicket();
+
+        ProxyUtils.generateClassFile(ticketManager.getClass(), "TicketManagerProxy");
+
     }
 
 

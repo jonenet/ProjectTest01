@@ -27,6 +27,8 @@ public class DynamicProxyTicketManager implements InvocationHandler {
 
     /**
      * 反射，这样你可以在不知道具体的类的情况下，根据配置的参数去调用一个类的方法。在灵活编程的时候非常有用。
+     * InvocationHandler的invoke传入 method 和 动态生成的proxy类对象
+     *
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
@@ -38,7 +40,7 @@ public class DynamicProxyTicketManager implements InvocationHandler {
                 checkIdentity();
                 ret = method.invoke(targetObject, args);
                 log();
-            }else{
+            } else {
                 ret = method.invoke(targetObject, args);
             }
             // 调用目标方法
