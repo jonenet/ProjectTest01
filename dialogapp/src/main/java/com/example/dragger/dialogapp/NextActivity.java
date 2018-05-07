@@ -17,6 +17,8 @@ public class NextActivity extends Activity {
     @TestAnnoAware
     public String text;
 
+    @TestAnnoAware
+    public String name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

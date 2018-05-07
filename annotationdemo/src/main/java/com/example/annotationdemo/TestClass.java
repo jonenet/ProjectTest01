@@ -7,9 +7,7 @@ import com.example.annotationdemo.test.CloneTestClass;
 import com.example.annotationdemo.test.bwl.Caretaker;
 import com.example.annotationdemo.test.bwl.Originator;
 import com.example.annotationdemo.test.daili.DynamicProxyTicketManager;
-import com.example.annotationdemo.test.daili.LogProxy;
 import com.example.annotationdemo.test.daili.ProxyUtils;
-import com.example.annotationdemo.test.daili.StaticProxyTicketManager;
 import com.example.annotationdemo.test.daili.TicketManager;
 import com.example.annotationdemo.test.daili.TicketManagerImpl;
 import com.example.annotationdemo.test.zrl.FirstHandler;
@@ -20,11 +18,11 @@ import com.example.annotationdemo.test.zrl.ZRLLevel;
 import com.example.annotationdemo.test.zrl.ZRLRequest;
 import com.example.annotationdemo.test.zrl.ZRLResponse;
 
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.InetAddress;
 
 import javax.annotation.processing.AbstractProcessor;
 
@@ -39,8 +37,19 @@ public class TestClass {
 //        testCloneMethod();
 //        testZRLMethod();
 //        testBwlMethod();
-        testProxyMethod();
+//        testProxyMethod();
+        testSocket();
+    }
 
+    private static void testSocket() {
+        try {
+            InetAddress byAddress = InetAddress.getByAddress(new byte[]{127, 0, 0, 1});
+//            InetAddress inetAddress = InetAddress.getByName("www.baidu.com");
+//            System.out.println(inetAddress.getHostAddress());
+            System.out.println(byAddress.getCanonicalHostName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static void testProxyMethod() {

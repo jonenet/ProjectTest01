@@ -5,7 +5,6 @@ import com.example.testannotationprocesser.Type;
 import com.example.testannotationprocesser.utils.Constants;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterSpec;
@@ -14,7 +13,6 @@ import com.squareup.javapoet.TypeSpec;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.reflect.TypeUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,9 +32,7 @@ import javax.annotation.processing.SupportedOptions;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
-import javax.lang.model.element.Name;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
@@ -45,6 +41,7 @@ import javax.tools.Diagnostic;
 
 /**
  * Created by ex-zhoulai on 2018/4/28.
+ * 
  */
 
 @AutoService(Processor.class)
@@ -90,10 +87,12 @@ public class TestAutoProcesser extends AbstractProcessor {
         Set<? extends Element> routerNodes = roundEnv.getElementsAnnotatedWith(TestAnnoAware.class);
         if (null != routerNodes) {
             messager.printMessage(Diagnostic.Kind.NOTE, "start process");
-
+            //获取所有的TestAnnoAware注解
             for (Element element : routerNodes) {
                 TypeElement enclosingElement = (TypeElement) element.getEnclosingElement();
+                messager.printMessage(Diagnostic.Kind.NOTE, "className: " + element.getSimpleName().toString());
                 try {
+                    messager.printMessage(Diagnostic.Kind.NOTE, enclosingElement.getQualifiedName());
                     if (element.getModifiers().contains(Modifier.PRIVATE)) {
                         throw new IllegalAccessException("The autowired fields CAN NOT BE 'private'!!! please check field ["
                                 + element.getSimpleName() + "] in class [" + enclosingElement.getQualifiedName() + "]");
@@ -108,64 +107,64 @@ public class TestAutoProcesser extends AbstractProcessor {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            }
+            TypeElement type_ISyringe = elementUtils.getTypeElement(Constants.ISYRINGE);
+            TypeMirror activityTm = elementUtils.getTypeElement(Constants.ACTIVITY).asType();
+            ParameterSpec objectParamSpec = ParameterSpec.builder(TypeName.OBJECT, "target").build();
 
-                TypeElement type_ISyringe = elementUtils.getTypeElement(Constants.ISYRINGE);
-                TypeMirror activityTm = elementUtils.getTypeElement(Constants.ACTIVITY).asType();
-                ParameterSpec objectParamSpec = ParameterSpec.builder(TypeName.OBJECT, "target").build();
+            if (!MapUtils.isEmpty(parentAndChild)) {
+                MethodSpec.Builder injectMethod = MethodSpec.methodBuilder("inject")
+                        .addAnnotation(Override.class)
+                        .addModifiers(Modifier.PUBLIC)
+                        //等于添加了一个Object类型的参数
+                        .addParameter(objectParamSpec);
 
-                if (!MapUtils.isEmpty(parentAndChild)) {
+                for (Map.Entry<TypeElement, List<Element>> entry : parentAndChild.entrySet()) {
+                    TypeElement parent = entry.getKey();
+                    List<Element> value = entry.getValue();
+                    String name = parent.getQualifiedName().toString();
+                    messager.printMessage(Diagnostic.Kind.NOTE, name);
 
-                    for (Map.Entry<TypeElement, List<Element>> entry : parentAndChild.entrySet()) {
-                        MethodSpec.Builder injectMethod = MethodSpec.methodBuilder("inject")
-                                .addAnnotation(Override.class)
-                                .addModifiers(Modifier.PUBLIC)
-                                //等于添加了一个Object类型的参数
-                                .addParameter(objectParamSpec);
-                        TypeElement parent = entry.getKey();
-                        List<Element> value = entry.getValue();
-
-                        String name = parent.getQualifiedName().toString();
-                        messager.printMessage(Diagnostic.Kind.NOTE, name);
-
-                        //包名
-                        String packageName = name.substring(0, name.lastIndexOf("."));
-                        //类名
-                        String fileName = parent.getSimpleName() + SUFFIX_AUTOWIRED;
-                        messager.printMessage(Diagnostic.Kind.NOTE, fileName);
-                        //////////////////////////
-                        //生成类
-                        TypeSpec.Builder classBuild = TypeSpec.classBuilder(fileName)
-                                .addSuperinterface(ClassName.get(type_ISyringe))
-                                .addModifiers(Modifier.PUBLIC);
+                    //包名
+                    String packageName = name.substring(0, name.lastIndexOf("."));
+                    //类名
+                    String fileName = parent.getSimpleName() + SUFFIX_AUTOWIRED;
+                    messager.printMessage(Diagnostic.Kind.NOTE, fileName);
+                    //////////////////////////
+                    //生成类
+                    TypeSpec.Builder classBuild = TypeSpec.classBuilder(fileName)
+                            .addSuperinterface(ClassName.get(type_ISyringe))
+                            .addModifiers(Modifier.PUBLIC);
 
 //                       ISyringe substitute = (ISyringe) target;
-                        injectMethod.addStatement("$T substitute = ($T)target", ClassName.get(parent), ClassName.get(parent));
+                    injectMethod.addStatement("$T substitute = ($T)target", ClassName.get(parent), ClassName.get(parent));
 
-                        //这里是一个类中所有的成员变量
-                        for (Element element1 : value) {
-                            TestAnnoAware annotation = element1.getAnnotation(TestAnnoAware.class);
-                            String fieldName = element1.getSimpleName().toString();
-                            String originalValue = "substitute." + fieldName;//substitute.name  substitute就是跳转后的activity
-                            String statment = "substitute." + fieldName + " = substitute.";//substitute.name = substitute.getIntent().getXxx(...)
+                    //这里是一个类中所有的成员变量
+                    for (Element element1 : value) {
+                        TestAnnoAware annotation = element1.getAnnotation(TestAnnoAware.class);
+                        String fieldName = element1.getSimpleName().toString();
+                        String originalValue = "substitute." + fieldName;//substitute.name  substitute就是跳转后的activity
+                        String statment = "substitute." + fieldName + " = substitute.";//substitute.name = substitute.getIntent().getXxx(...)
 
-                            //如果是Activity
-                            if (typeUtils.isSubtype(parent.asType(), activityTm)) {
-                                statment += "getIntent().";
-                            }
-                            //getXxx("name");
-                            statment = buildStatement(originalValue, statment, typeExchange(element1), true);
-                            injectMethod.addStatement(statment, StringUtils.isEmpty(annotation.value()) ? fieldName : annotation.value());
-
-                            classBuild.addMethod(injectMethod.build()).build();
+                        //如果是Activity
+                        if (typeUtils.isSubtype(parent.asType(), activityTm)) {
+                            statment += "getIntent().";
                         }
+                        //getXxx("name");
+                        statment = buildStatement(originalValue, statment, typeExchange(element1), true);
+                        injectMethod.addStatement(statment, StringUtils.isEmpty(annotation.value()) ? fieldName : annotation.value());
+                    }
+                    classBuild.addMethod(injectMethod.build()).build();
+//                    String packageName = processingEnv.getElementUtils().getPackageOf(element).getQualifiedName().toString();
 
-                        try {
-                            JavaFile.builder(packageName, classBuild.build()).build().writeTo(filer);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                    try {
+                        JavaFile.builder(packageName, classBuild.build()).build().writeTo(filer);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
+                // 在gradle的控制台打印信息,注解上面的类名
+            }
 
 
 //                TypeMirror activityType = elementUtils.getTypeElement("android.app.Activity").asType();
@@ -178,35 +177,30 @@ public class TestAutoProcesser extends AbstractProcessor {
 //                    messager.printMessage(Diagnostic.Kind.NOTE, value);
 //                }
 
-                // 在gradle的控制台打印信息,注解上面的类名
-                messager.printMessage(Diagnostic.Kind.NOTE, "className: " + element.getSimpleName().toString());
 
-                // 创建main方法
-                MethodSpec main = MethodSpec.methodBuilder("main")
-                        .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                        .returns(void.class)
-                        .addParameter(String[].class, "args")
-                        .addStatement("$T.out.println($S)", System.class, "自动创建的")
-                        .addStatement("")
-                        .addJavadoc("ccccc")
-                        .build();
-
-                // 创建HelloWorld类
-                TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
-                        .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
-                        .addMethod(main)
-                        .build();
-
-                String packageName = processingEnv.getElementUtils().getPackageOf(element).getQualifiedName().toString();
-                try {
-                    JavaFile javaFile = JavaFile.builder(packageName, helloWorld)//
-                            .addFileComment(" This codes are generated automatically. Do not modify!")
-                            .build();
-                    javaFile.writeTo(filer);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            // 创建main方法
+//            MethodSpec main = MethodSpec.methodBuilder("main")
+//                    .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
+//                    .returns(void.class)
+//                    .addParameter(String[].class, "args")
+//                    .addStatement("$T.out.println($S)", System.class, "自动创建的")
+//                    .addStatement("")
+//                    .addJavadoc("ccccc")
+//                    .build();
+//
+//            // 创建HelloWorld类
+//            TypeSpec helloWorld = TypeSpec.classBuilder("HelloWorld")
+//                    .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+//                    .addMethod(main)
+//                    .build();
+//            try {
+//                JavaFile javaFile = JavaFile.builder(packageName, helloWorld)//
+//                        .addFileComment(" This codes are generated automatically. Do not modify!")
+//                        .build();
+//                javaFile.writeTo(filer);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
             return true;
         }
 
