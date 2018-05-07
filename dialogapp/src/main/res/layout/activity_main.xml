@@ -89,7 +89,6 @@
         android:layout_marginRight="20dp"
         android:background="#eeeeee"
         android:gravity="center"
-        android:padding="10dp"
         android:text="bbbb" />
 
 
@@ -109,7 +108,7 @@
 
         <Button
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
         android:background="@android:color/holo_red_light"
         android:text="heheda"
         android:textColor="@android:color/white" />

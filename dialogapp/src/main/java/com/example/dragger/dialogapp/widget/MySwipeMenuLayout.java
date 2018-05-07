@@ -52,21 +52,25 @@ public class MySwipeMenuLayout extends ViewGroup {
 
     }
 
-    //一、处理控件大小问题
+    //一、处理控件大小问题            MeasureSpec.EXACTLY        MeasureSpec.AT_MOST      如果是
+    //二、处理子控件位置排布
+    //三、处理滑动事件              scrollTo 滑动到指定的位置    scrollBy 滑动多少的而距离（一般在ACTION_MOVE中使用）
+    //四、事件处理                  getParent().requestDisallowInterceptTouchEvent(true);
+    //
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
+        int height = MeasureSpec.getSize(heightMeasureSpec);
         mRightMenuWidths = 0;//侧边栏的宽度 由于ViewHolder的复用机制，每次这里要手动恢复初始值
-        mHeight = 0;
+        mHeight = height;
         int contentWidth = 0;// 适配GridLayoutManager，将以第一个子Item(即ContentItem)的宽度为控件宽度
 
         int childCount = getChildCount();
         //MatchParent 和 具体大小都是都是EXACTLY
-        boolean measureSpecMathcParent = MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;
+//        boolean measureSpecMathcParent = MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;
 
         //暂时不知道怎么用,必须测量子控件的高度
-        boolean isNeedMeasureChildHeight = false;
+//        boolean isNeedMeasureChildHeight = false;
 
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
@@ -77,9 +81,9 @@ public class MySwipeMenuLayout extends ViewGroup {
                 MarginLayoutParams lp = (MarginLayoutParams) childView.getLayoutParams();
                 mHeight = Math.max(childView.getMeasuredHeight(), mHeight);
                 //父控件是wrap_content 子控件又是match_parent
-                if (measureSpecMathcParent && lp.height == LayoutParams.MATCH_PARENT) {
-                    isNeedMeasureChildHeight = true;
-                }
+//                if (measureSpecMathcParent && lp.height == LayoutParams.MATCH_PARENT) {
+//                    isNeedMeasureChildHeight = true;
+//                }
 
                 if (i > 0) {
                     mRightMenuWidths += childView.getMeasuredWidth();
@@ -91,16 +95,15 @@ public class MySwipeMenuLayout extends ViewGroup {
             }
         }
 
-        //重新测量控件
+        //重新测量父控件 这里只要是为了
         setMeasuredDimension(contentWidth + getPaddingLeft() + getPaddingRight(), mHeight + getPaddingTop() + getPaddingBottom());
 
         //滑动位置的临界值，如果是40%就打开
         mLimit = mRightMenuWidths * 4 / 10;//滑动判断的临界值
 
-        if (isNeedMeasureChildHeight) {
+//        if (isNeedMeasureChildHeight) {
 //            forceUniformHeight(childCount, widthMeasureSpec);
-        }
-
+//        }
     }
 
     /**
