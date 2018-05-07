@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -78,7 +79,7 @@ public class SwipeMenuLayout extends ViewGroup {
     private PointF mFirstP = new PointF();
     private boolean isUserSwiped;
 
-    //存储的是当前正在展开的View
+    //存储的是当前正在展开的View 巧妙的保存了打开的layout 关闭的时候置空防止内存泄漏
     private static SwipeMenuLayout mViewCache;
 
     //防止多只手指一起滑我的flag 在每次down里判断， touch事件结束清空
@@ -175,7 +176,7 @@ public class SwipeMenuLayout extends ViewGroup {
         //初始化滑动帮助类对象
         //mScroller = new Scroller(context);
 
-        //右滑删除功能的开关,默认开
+        //右滑功能的开关,默认开
         isSwipeEnable = true;
         //IOS、QQ式交互，默认开
         isIos = true;
@@ -211,7 +212,7 @@ public class SwipeMenuLayout extends ViewGroup {
         int contentWidth = 0;//2016 11 09 add,适配GridLayoutManager，将以第一个子Item(即ContentItem)的宽度为控件宽度
         int childCount = getChildCount();
 
-        //add by 2016 08 11 为了子View的高，可以matchParent(参考的FrameLayout 和LinearLayout的Horizontal)
+        //add by 2016 08 11 为了测子View的高，可以matchParent(参考的FrameLayout 和LinearLayout的Horizontal)
         final boolean measureMatchParentChildren = MeasureSpec.getMode(heightMeasureSpec) != MeasureSpec.EXACTLY;
         boolean isNeedMeasureChildHeight = false;
 
@@ -221,29 +222,37 @@ public class SwipeMenuLayout extends ViewGroup {
             childView.setClickable(true);
             if (childView.getVisibility() != GONE) {
                 //后续计划加入上滑、下滑，则将不再支持Item的margin
+                //直接测量子控件
                 measureChild(childView, widthMeasureSpec, heightMeasureSpec);
                 //measureChildWithMargins(childView, widthMeasureSpec, 0, heightMeasureSpec, 0);
                 final MarginLayoutParams lp = (MarginLayoutParams) childView.getLayoutParams();
+                //拿到子view中的最大值为高
                 mHeight = Math.max(mHeight, childView.getMeasuredHeight()/* + lp.topMargin + lp.bottomMargin*/);
                 if (measureMatchParentChildren && lp.height == LayoutParams.MATCH_PARENT) {
+                    //如果子view的高是match_content,那么需要重新测量
                     isNeedMeasureChildHeight = true;
                 }
                 if (i > 0) {//第一个布局是Left item，从第二个开始才是RightMenu
+                    //右边布局的宽度
                     mRightMenuWidths += childView.getMeasuredWidth();
                 } else {
+                    //第一个子View为内容区域
                     mContentView = childView;
                     contentWidth = childView.getMeasuredWidth();
                 }
             }
         }
+        //测量控件的宽高，控件的宽就是第一个子view的宽
         setMeasuredDimension(getPaddingLeft() + getPaddingRight() + contentWidth,
                 mHeight + getPaddingTop() + getPaddingBottom());//宽度取第一个Item(Content)的宽度
+
         mLimit = mRightMenuWidths * 4 / 10;//滑动判断的临界值
         //Log.d(TAG, "onMeasure() called with: " + "mRightMenuWidths = [" + mRightMenuWidths);
         if (isNeedMeasureChildHeight) {//如果子View的height有MatchParent属性的，设置子View高度
-            forceUniformHeight(childCount, widthMeasureSpec);
+//            forceUniformHeight(childCount, widthMeasureSpec);
         }
     }
+
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
@@ -268,6 +277,7 @@ public class SwipeMenuLayout extends ViewGroup {
             if (child.getVisibility() != GONE) {
                 MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
                 if (lp.height == LayoutParams.MATCH_PARENT) {
+                    //如果是匹配父控件大小
                     // Temporarily force children to reuse their old measured width
                     // FIXME: this may not be right for something like wrapping text?
                     int oldWidth = lp.width;//measureChildWithMargins 这个函数会用到宽，所以要保存一下
@@ -286,6 +296,7 @@ public class SwipeMenuLayout extends ViewGroup {
         int childCount = getChildCount();
         int left = 0 + getPaddingLeft();
         int right = 0 + getPaddingLeft();
+        //重新排列布局
         for (int i = 0; i < childCount; i++) {
             View childView = getChildAt(i);
             if (childView.getVisibility() != GONE) {
@@ -297,6 +308,7 @@ public class SwipeMenuLayout extends ViewGroup {
                         childView.layout(left, getPaddingTop(), left + childView.getMeasuredWidth(), getPaddingTop() + childView.getMeasuredHeight());
                         left = left + childView.getMeasuredWidth();
                     } else {
+                        //如果是往右边划，就是从左边开始排列
                         childView.layout(right - childView.getMeasuredWidth(), getPaddingTop(), right, getPaddingTop() + childView.getMeasuredHeight());
                         right = right - childView.getMeasuredWidth();
                     }
@@ -307,40 +319,53 @@ public class SwipeMenuLayout extends ViewGroup {
         //Log.d(TAG, "onLayout() called with: " + "maxScrollGap = [" + maxScrollGap + "], l = [" + l + "], t = [" + t + "], r = [" + r + "], b = [" + b + "]");
     }
 
+
+    /**
+     * onTouchEvent             响应事件
+     * dispatchTouchEvent       分发事件
+     * onInterceptTouchEvent    拦截事件
+     */
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //LogUtils.d(TAG, "dispatchTouchEvent() called with: " + "ev = [" + ev + "]");
+        //开启了侧拉功能
         if (isSwipeEnable) {
             acquireVelocityTracker(ev);
+            //获取滑动速率的类
             final VelocityTracker verTracker = mVelocityTracker;
             switch (ev.getAction()) {
+                //1.这个是一定会走的方法
                 case MotionEvent.ACTION_DOWN:
-                    isUserSwiped = false;//2016 11 03 add,判断手指起始落点，如果距离属于滑动了，就屏蔽一切点击事件。
-                    isUnMoved = true;//2016 10 22 add , 仿QQ，侧滑菜单展开时，点击内容区域，关闭侧滑菜单。
-                    iosInterceptFlag = false;//add by 2016 09 11 ，每次DOWN时，默认是不拦截的
-                    if (isTouching) {//如果有别的指头摸过了，那么就return false。这样后续的move..等事件也不会再来找这个View了。
+                    //不懂这一堆的变量是干啥的
+                    isUserSwiped = false;           //2016 11 03 add , 判断手指起始落点，如果距离属于滑动了，就屏蔽一切点击事件。
+                    isUnMoved = true;               //2016 10 22 add , 仿QQ，侧滑菜单展开时，点击内容区域，关闭侧滑菜单。
+                    iosInterceptFlag = false;       //add by 2016 09 11 ，每次DOWN时，默认是不拦截的
+                    if (isTouching) {               //如果有别的指头摸过了， 那么就returnfalse。这样后续的move..等事件也不会再来找这个View了。
                         return false;
                     } else {
-                        isTouching = true;//第一个摸的指头，赶紧改变标志，宣誓主权。
+                        isTouching = true;          //第一个摸的指头，赶紧改变标志，宣誓主权。
                     }
+
                     mLastP.set(ev.getRawX(), ev.getRawY());
                     mFirstP.set(ev.getRawX(), ev.getRawY());//2016 11 03 add,判断手指起始落点，如果距离属于滑动了，就屏蔽一切点击事件。
 
-                    //如果down，view和cacheview不一样，则立马让它还原。且把它置为null
+                    //如果down，view和cacheview不一样，则立马让它还原。且把它置为null    //当一个侧滑menu打开是，点击就关闭
                     if (mViewCache != null) {
                         if (mViewCache != this) {
                             mViewCache.smoothClose();
 
                             iosInterceptFlag = isIos;//add by 2016 09 11 ，IOS模式开启的话，且当前有侧滑菜单的View，且不是自己的，就该拦截事件咯。
                         }
-                        //只要有一个侧滑菜单处于打开状态， 就不给外层布局上下滑动了
+                        //只要有一个侧滑菜单处于打开状态， 就不给外层布局上下滑动了 ， 申请顶层父控件拦截事件
                         getParent().requestDisallowInterceptTouchEvent(true);
                     }
-                    //求第一个触点的id， 此时可能有多个触点，但至少一个，计算滑动速率用
+                    //求第一个触点的id， 此时可能有多个触点，但至少一个，计算滑动速率用 ,多点触控
                     mPointerId = ev.getPointerId(0);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     //add by 2016 09 11 ，IOS模式开启的话，且当前有侧滑菜单的View，且不是自己的，就该拦截事件咯。滑动也不该出现
+                    //ios模式：只有当一个条目关闭了才能打开另一个条目
                     if (iosInterceptFlag) {
                         break;
                     }
@@ -358,7 +383,7 @@ public class SwipeMenuLayout extends ViewGroup {
 /*                    if (!mScroller.isFinished()) {
                         mScroller.abortAnimation();
                     }*/
-                    scrollBy((int) (gap), 0);//滑动使用scrollBy
+                    scrollBy((int) (gap), 0);//滑动使用 scrollBy
                     //越界修正
                     if (isLeftSwipe) {//左滑
                         if (getScrollX() < 0) {
@@ -429,8 +454,11 @@ public class SwipeMenuLayout extends ViewGroup {
                     break;
             }
         }
+        // dispatchTouchEvent()返回true，后续事件（ACTION_MOVE、ACTION_UP）会再传递 默认都是false所以一定会传递
         return super.dispatchTouchEvent(ev);
     }
+
+    //如果
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
@@ -442,7 +470,7 @@ public class SwipeMenuLayout extends ViewGroup {
                 //add by zhangxutong 2016 11 04 begin :
                 // fix 长按事件和侧滑的冲突。
                 case MotionEvent.ACTION_MOVE:
-                    //屏蔽滑动时的事件
+                    //屏蔽滑动时的事件，拦截滑动事件，传递点击事件
                     if (Math.abs(ev.getRawX() - mFirstP.x) > mScaleTouchSlop) {
                         return true;
                     }
@@ -451,9 +479,11 @@ public class SwipeMenuLayout extends ViewGroup {
                 case MotionEvent.ACTION_UP:
                     //为了在侧滑时，屏蔽子View的点击事件
                     if (isLeftSwipe) {
+                        //认为是滑动
                         if (getScrollX() > mScaleTouchSlop) {
                             //add by 2016 09 10 解决一个智障问题~ 居然不给点击侧滑菜单 我跪着谢罪
                             //这里判断落点在内容区域屏蔽点击，内容区域外，允许传递事件继续向下的的。。。
+                            //当前的位置 <
                             if (ev.getX() < getWidth() - getScrollX()) {
                                 //2016 10 22 add , 仿QQ，侧滑菜单展开时，点击内容区域，关闭侧滑菜单。
                                 if (isUnMoved) {
@@ -474,7 +504,7 @@ public class SwipeMenuLayout extends ViewGroup {
                         }
                     }
                     //add by zhangxutong 2016 11 03 begin:
-                    // 判断手指起始落点，如果距离属于滑动了，就屏蔽一切点击事件。
+                    // 判断手指起始落点，如果距离属于滑动了，就屏蔽一切点击事件。 说白了就是不让事件传递下去
                     if (isUserSwiped) {
                         return true;
                     }
