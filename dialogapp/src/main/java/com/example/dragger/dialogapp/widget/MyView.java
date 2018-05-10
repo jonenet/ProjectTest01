@@ -49,9 +49,10 @@ public class MyView extends View {
         int specSize = MeasureSpec.getSize(measureSpec);
 
         if (specMode == MeasureSpec.EXACTLY) {
-            //getMeasureSize 和 实际需要的大小  取一个大的值
+            //确定大小的情况 getMeasureSize 和 实际需要的大小  取一个大的值
             result = Math.max(contentSize, specSize);
         } else {
+            //如果是wrap_content
             result = contentSize;
 
             if (specType == 1) {
