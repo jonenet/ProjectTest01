@@ -1,0 +1,76 @@
+apply from: "http://config.dev.banketech.com/script/config.gradle"
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$cfg.cloud"
+    }
+}
+
+dependencies {
+    // spring cloud
+    compile('org.springframework.cloud:spring-cloud-starter-consul-all') {
+        exclude module: 'spring-boot-starter-tomcat'
+    }
+    compile 'org.springframework.boot:spring-boot-starter-undertow:' + cfg.boot
+    compile 'org.springframework.boot:spring-boot-starter-actuator:' + cfg.boot
+    compile 'org.springframework.cloud:spring-cloud-starter-feign'
+    compile 'org.springframework.cloud:spring-cloud-starter-hystrix'
+    compile 'org.springframework.boot:spring-boot-starter-amqp:' + cfg.boot
+
+    // mysql
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa:' + cfg.boot
+    compile 'org.hibernate:hibernate-core:' + cfg.hbm
+    compile 'org.hibernate:hibernate-entitymanager:' + cfg.hbm
+    compile 'mysql:mysql-connector-java:' + cfg.mysql
+
+    compile 'com.google.guava:guava:' + cfg.guava
+    compile 'org.apache.commons:commons-lang3:' + cfg.commonsLang
+    compile 'org.projectlombok:lombok:' + cfg.lombok
+    compile 'com.alibaba:fastjson:' + cfg.fastjson
+    compile 'com.github.ulisesbocchio:jasypt-spring-boot-starter:' + cfg.jasypt
+
+    // test
+    testCompile 'org.springframework.boot:spring-boot-starter-test:' + cfg.boot
+
+    // bkc
+    compile 'com.banke.bkc:BKC-service:' + cfg.bkcService
+    compile 'com.banke.bkc:BKC-framework:' + cfg.bkcFramework
+    compile 'com.banke.bkc:BKC-message:' + cfg.bkcMessage
+}
+
+jar.version = hasProperty('ver')?ver:'1.0.0'
+jar.group = 'com.banke'
+jar.baseName = project.name
+jar.manifest {
+    attributes 'Specification-Title': project.name, 'Specification-Version': jar.version
+}
+def e = hasProperty('env') ? env : 'dev'
+def appName
+def ymlDir = new File('src/main/resources')
+if (ymlDir.exists()) {
+    ymlDir.eachFileMatch(~/.*\.yml/) { file ->
+        file.eachLine {
+            if (it.startsWith("spring.application.name")) {
+                appName = it.substring("spring.application.name".length() + 1).trim()
+            }
+        }
+    }
+    if (appName) {
+        println 'Application: ' + appName
+        project.archivesBaseName = appName
+    } else {
+        println 'WARNING: spring.application.name NOT DEFINED!'
+    }
+}
+
+processResources {
+    exclude { "src/main/resources/*.yml" }
+}
+
+task copyBaseConfig(type: Copy) {
+    from 'src/main/resources'
+    into 'build/libs'
+    include "*.yml"
+}
+
+assemble.dependsOn(copyBaseConfig)

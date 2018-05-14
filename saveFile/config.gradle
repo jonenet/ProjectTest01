@@ -1,0 +1,40 @@
+ext {
+    cfg = [
+            "cloud"       : "Camden.SR4",
+            "cloudNetflix": "1.2.4.RELEASE",
+            "boot"        : "1.4.3.RELEASE",
+            "guava"       : "23.0",
+            "lombok"      : "1.16.12",
+            "fastjson"    : "1.2.28",
+            "jackson"     : "2.8.5",
+            "commonsLang" : "3.4",
+            "hbm"         : "5.2.6.Final",
+            "ehcache"     : "3.3.1",
+            "mysql"       : "5.1.40",
+            "jasypt"      : "1.16",
+            "bkcFramework": "1.1.11",
+            "bkcMessage"  : "1.1.6",
+            "bkcService"  : "1.1.9"
+    ]
+    host = [
+            "cloudRepo": "http://repo.dev.banketech.com",
+            "config"   : "http://config.dev.banketech.com",
+            "devRepo"   : "http://service.dev.banketech.com:8081"
+    ]
+}
+repositories {
+    maven { url host.devRepo + '/artifactory/libs-release' }
+    maven { url host.cloudRepo + '/artifactory/libs-release' }
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+configurations {
+    compile.exclude group: 'com.amazonaws'
+    compile.exclude module: 'spring-boot-starter-tomcat'
+}
+
+task copyJars(type: Copy) {
+    from configurations.runtime
+    into 'build/dependency'
+}
