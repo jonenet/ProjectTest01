@@ -56,9 +56,4 @@ dependencies {
     compile project(":TestAnnotation")
     compile project(":baselib")
     annotationProcessor project(":TestAnnotation-complier")
-
-    compile 'com.github.rey5137:material:1.2.4'
-
-    compile 'com.flipboard:bottomsheet-core:1.5.3'
-    compile 'com.flipboard:bottomsheet-commons:1.5.3'
 }
