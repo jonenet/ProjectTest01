@@ -3,20 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ProjectTest01.iml" filepath="$PROJECT_DIR$/ProjectTest01.iml" />
-      <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\ProjectTest01.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\ProjectTest01.iml" />
       <module fileurl="file://F:\demo\kuangjia\android\ProjectTest01\ProjectTest01.iml" filepath="F:\demo\kuangjia\android\ProjectTest01\ProjectTest01.iml" />
       <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01\.idea\ProjectTest01.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01\.idea\ProjectTest01.iml" />
       <module fileurl="file://$PROJECT_DIR$/TestAnnotation/TestAnnotation.iml" filepath="$PROJECT_DIR$/TestAnnotation/TestAnnotation.iml" />
-      <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\TestAnnotation\TestAnnotation.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\TestAnnotation\TestAnnotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/TestAnnotation-complier/TestAnnotation-complier.iml" filepath="$PROJECT_DIR$/TestAnnotation-complier/TestAnnotation-complier.iml" />
-      <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\TestAnnotation-complier\TestAnnotation-complier.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\TestAnnotation-complier\TestAnnotation-complier.iml" />
       <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01\TestAnnotation-complier\TestAnnotationProcesser.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01\TestAnnotation-complier\TestAnnotationProcesser.iml" />
       <module fileurl="file://$PROJECT_DIR$/annotationdemo/annotationdemo.iml" filepath="$PROJECT_DIR$/annotationdemo/annotationdemo.iml" />
-      <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\annotationdemo\annotationdemo.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\annotationdemo\annotationdemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/baselib/baselib.iml" filepath="$PROJECT_DIR$/baselib/baselib.iml" />
-      <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\baselib\baselib.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\baselib\baselib.iml" />
       <module fileurl="file://$PROJECT_DIR$/dialogapp/dialogapp.iml" filepath="$PROJECT_DIR$/dialogapp/dialogapp.iml" />
-      <module fileurl="file://D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\dialogapp\dialogapp.iml" filepath="D:\DEVSource\MyApp\MyWorkSpace01\FirstSpace\ProjectTest01GitMaster\ProjectTest01\dialogapp\dialogapp.iml" />
     </modules>
   </component>
 </project>

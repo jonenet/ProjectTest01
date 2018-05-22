@@ -1,18 +1,40 @@
 apply plugin: 'com.android.application'
 
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
+}
+
+def verCode = 14
+
 android {
     compileSdkVersion 26
+    buildToolsVersion "27.0.3"
 
-
+    signingConfigs {
+        signingConfig {
+            keyAlias 'dialog'
+            keyPassword 'a123456'
+            storeFile file('dialogapp.jks')
+            storePassword 'a123456'
+        }
+    }
 
     defaultConfig {
         applicationId "com.example.dragger.dialogapp"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+//        versionCode 1
+//        versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode verCode
+        versionName APP_VERSION
+        resValue("string", 'app_version', APP_VERSION)
+        buildConfigField "boolean", "LEO_DEBUG", "true"
+        buildConfigField 'String', 'API_SERVER_URL', RELEASE_API_SERVER_URL
+        buildConfigField 'String', 'API_SERVER_URL_MALL', RELEASE_API_SERVER_URL_MALL
+        signingConfig signingConfigs.signingConfig
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -20,13 +42,34 @@ android {
                 arguments = [testOption: "app"]
             }
         }
+
     }
+
 
     buildTypes {
         release {
-            minifyEnabled false
+            buildConfigField 'String', 'API_SERVER_URL', RELEASE_API_SERVER_URL
+            buildConfigField 'String', 'API_SERVER_URL_MALL', RELEASE_API_SERVER_URL_MALL
+            buildConfigField 'String', 'IM_SERVER_HOST', RELEASE_IM_SERVER_HOST
+            buildConfigField 'int', 'IM_SERVER_PORT', RELEASE_IM_SERVER_PORT
+            buildConfigField "boolean", "LEO_DEBUG", RELEASE_LEO_DEBUG
+            minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            buildConfigField 'String', 'API_SERVER_URL', RELEASE_API_SERVER_URL
+            buildConfigField 'String', 'API_SERVER_URL_MALL', RELEASE_API_SERVER_URL_MALL
+            buildConfigField 'String', 'IM_SERVER_HOST', RELEASE_IM_SERVER_HOST
+            buildConfigField 'int', 'IM_SERVER_PORT', RELEASE_IM_SERVER_PORT
+            buildConfigField "boolean", "LEO_DEBUG", RELEASE_LEO_DEBUG
+        }
+
+//        release {
+//            minifyEnabled false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//        }
     }
 
     lintOptions {
@@ -35,6 +78,42 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            outputFileName = "xinlebao_${defaultConfig.versionName}_${releaseTime()}.apk"
+//        }
+//    }
+
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def newName
+            def timeNow
+//            def oldFile = output.outputFile
+//            def outDirectory = oldFile.parent
+            def outDirectory
+
+            if ("true".equals(IS_JENKINS)) {
+                timeNow = JENKINS_TIME
+                outDirectory = 'D:/developTools/apachetomcat8/webapps/jenkins/apk'
+                newName = 'jone-android-v' +
+                        APP_VERSION + '-' + timeNow + '-' + '.apk'
+                output.outputFileName = new File(outDirectory, newName)
+            } else {
+                timeNow = getDate()
+                if (variant.buildType.name.equals('debug')) {
+                    newName = "jone-android-v${APP_VERSION}-debug.apk"
+                } else {
+                    newName = 'jone-android-v' +
+                            APP_VERSION + '-' + timeNow + '-' + '.apk'
+                }
+                output.outputFileName = new File(newName)
+            }
+
+        }
+    }
+
 
 }
 
@@ -57,3 +136,5 @@ dependencies {
     compile project(":baselib")
     annotationProcessor project(":TestAnnotation-complier")
 }
+
+
