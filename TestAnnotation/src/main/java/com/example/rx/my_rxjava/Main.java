@@ -1,10 +1,43 @@
 package com.example.rx.my_rxjava;
 
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by tlh on 2017/5/9.
  */
 public class Main {
     public static void main(String[] args) {
+        io.reactivex.Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+
+            }
+        }).subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+//        Observable Observable.OnSubscribe Subscriber
         Observable.create(new Observable.OnSubscribe<Integer>() {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {
@@ -29,6 +62,7 @@ public class Main {
             }
         });
 
+        //Observable.OnSubscribe
         Observable.create(new Observable.OnSubscribe<Integer>() {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {
@@ -54,8 +88,7 @@ public class Main {
                 System.out.println("OnSubscribe@ " + Thread.currentThread().getName());
                 subscriber.onNext(1);
             }
-        })
-                .subscribeOn(Schedulers.io())
+        }).subscribeOn(Schedulers.io())
                 .subscribe(new SimpleSubscriber<Integer>() {
                     @Override
                     public void onNext(Integer var1) {

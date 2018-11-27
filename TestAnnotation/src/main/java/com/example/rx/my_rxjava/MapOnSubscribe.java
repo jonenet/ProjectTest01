@@ -4,8 +4,8 @@ package com.example.rx.my_rxjava;
  * Created by tlh on 2017/5/9.
  */
 public class MapOnSubscribe<T, R> implements Observable.OnSubscribe<R> {
-    final Observable<T> source;
-    final Observable.Transformer<? super T, ? extends R> transformer;
+    private final Observable<T> source;
+    private final Observable.Transformer<? super T, ? extends R> transformer;
 
     public MapOnSubscribe(Observable<T> source, Observable.Transformer<? super T, ? extends R> transformer) {
         this.source = source;

@@ -5,7 +5,7 @@ package com.example.rx.my_rxjava;
  * Created by tlh on 2017/5/9.
  */
 public class Observable<T> {
-    final OnSubscribe<T> onSubscribe;
+    private final OnSubscribe<T> onSubscribe;
 
     private Observable(OnSubscribe<T> onSubscribe) {
         this.onSubscribe = onSubscribe;
@@ -46,6 +46,19 @@ public class Observable<T> {
 //    }
 
     public <R> Observable<R> map(Transformer<? super T, ? extends R> transformer) {
+        //调用map方法分析
+
+        //1.创建Observable 传入MapOnSubscribe 将之前的 Observable 作为参数传入 MapOnSubscribe
+        //2.当调用subscribe方法时，就会调用 MapOnSubscribe 的call方法
+        //3.call方法调用的是原来 Observable 的 subscribe 方法，就会调用原来Observable.OnSubscribe的call方法
+        //4.原来的 Observable.OnSubscribe的call方法传入的是MapSubscriber，并会调用我们手动调用的onNext，onError,onComplete方法
+        //5.MapSubscriber传入最外层传入的Subscriber和转换器
+        //6.最终在MapSubscriber里面进行转换，并将结果传入最外层的subscribe
+
+        //重要的俩个类
+        // 1.MapOnSubscribe 用于激发转换器 MapOnSubscribe 的订阅
+        // 2.MapOnSubscribe 包装类，实际发生转换的类
+
         return create(new MapOnSubscribe<T, R>(this, transformer));
     }
 

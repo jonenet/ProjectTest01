@@ -9,6 +9,7 @@ import rx.Observable;
  */
 public class Defer$from$repeat {
     public static void main(String[] args) {
+//        loadingData().subscribe(System.out::println);
         Observable.defer(Defer$from$repeat::loadingData).subscribe(System.out::println);
     }
 

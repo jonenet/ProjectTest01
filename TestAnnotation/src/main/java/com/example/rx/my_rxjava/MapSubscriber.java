@@ -10,6 +10,11 @@ public class MapSubscriber<T, R> extends Subscriber<R> {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
     public void onCompleted() {
         actual.onCompleted();
     }
