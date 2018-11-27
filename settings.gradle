@@ -1,1 +1,1 @@
-include ':annotationdemo', ':TestAnnotation', ':TestAnnotation-complier',':dialogapp', ':baselib'
+include ':annotationdemo', ':TestAnnotation', ':TestAnnotation-complier',':dialogapp'

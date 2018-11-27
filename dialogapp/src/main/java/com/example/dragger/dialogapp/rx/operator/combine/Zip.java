@@ -1,8 +1,8 @@
 package com.example.dragger.dialogapp.rx.operator.combine;
 
 
-import com.example.dragger.dialogapp.rx.frame.Observable;
-import com.example.dragger.dialogapp.rx.my_rxjava.Subscriber;
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by tlh on 2016/8/9.

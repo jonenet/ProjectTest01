@@ -1,14 +1,18 @@
 package com.example.dragger.dialogapp.rx.operator.combine;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Subscriber;
 
 /**
  * Created by tlh on 2016/8/9.
  */
 public class CombineLast {
-    private static Observable<Integer> createObserver(int index) {
+    private static Observable<Integer> createObserver(final int index) {
         return Observable.create(new Observable.OnSubscribe<Integer>() {
             @Override
             public void call(Subscriber<? super Integer> subscriber) {

@@ -1,6 +1,8 @@
 package com.example.dragger.dialogapp.rx.operator.filter;
 
 
+import rx.Observable;
+
 /**
  * Created by tlh on 2016/8/9.
  */

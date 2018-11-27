@@ -10,7 +10,7 @@ def verCode = 14
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "27.0.3"
+    buildToolsVersion '28.0.3'
 
     signingConfigs {
         signingConfig {
@@ -115,6 +115,10 @@ android {
     }
 
 
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
 }
 
 
@@ -131,9 +135,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile project(':TestAnnotation')
-    compile project(':baselib')
+    //    compile project(':baselib')
     annotationProcessor project(":TestAnnotation-complier")
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'io.reactivex:rxjava:1.3.8'
 }
 
 

@@ -1,7 +1,7 @@
 package com.example.dragger.dialogapp.rx.operator.transform;
 
 
-import com.example.dragger.dialogapp.rx.my_rxjava.Observable;
+import rx.Observable;
 
 /**
  * Created by tlh on 2016/8/9.

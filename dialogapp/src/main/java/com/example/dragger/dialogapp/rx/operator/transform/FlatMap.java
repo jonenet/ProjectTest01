@@ -1,7 +1,11 @@
 package com.example.dragger.dialogapp.rx.operator.transform;
 
 
+
 import java.util.ArrayList;
+
+import rx.Observable;
+import rx.functions.Func0;
 
 /**
  * Created by tlh on 2016/8/9.
