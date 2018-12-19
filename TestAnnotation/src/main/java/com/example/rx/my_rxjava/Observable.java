@@ -56,14 +56,14 @@ public class Observable<T> {
         //6.最终在MapSubscriber里面进行转换，并将结果传入最外层的subscribe
 
         //重要的俩个类
-        // 1.MapOnSubscribe 用于激发转换器 MapOnSubscribe 的订阅
+        // 1.MapOnSubscribe 用于激发转换器 MapOnSubscribe 的订阅，用于激发最外层Observable.OnSubscribe的call方法，并传入要转换的MapOnSubscribe
         // 2.MapOnSubscribe 包装类，实际发生转换的类
 
         return create(new MapOnSubscribe<T, R>(this, transformer));
     }
 
     public Observable<T> subscribeOn(final Scheduler scheduler) {
-        return Observable.create(new OnSubscribe<T>() {
+        return create(new Observable.OnSubscribe<T>() {
             @Override
             public void call(final Subscriber<? super T> subscriber) {
                 subscriber.onStart();

@@ -6,18 +6,19 @@ def getDate() {
     return formattedDate
 }
 
-def verCode = 14
 
 android {
     compileSdkVersion 26
     buildToolsVersion '28.0.3'
 
+
     signingConfigs {
-        signingConfig {
-            keyAlias 'dialog'
-            keyPassword 'a123456'
-            storeFile file('dialogapp.jks')
-            storePassword 'a123456'
+
+        release {
+            storeFile file("../config/systemsign.jks")
+            storePassword "123456"
+            keyAlias "key0"
+            keyPassword "123456"
         }
     }
 
@@ -25,94 +26,54 @@ android {
         applicationId "com.example.dragger.dialogapp"
         minSdkVersion 15
         targetSdkVersion 26
-//        versionCode 1
-//        versionName "1.0"
-
-        versionCode verCode
-        versionName APP_VERSION
-        resValue("string", 'app_version', APP_VERSION)
-        buildConfigField "boolean", "LEO_DEBUG", "true"
-        buildConfigField 'String', 'API_SERVER_URL', RELEASE_API_SERVER_URL
-        buildConfigField 'String', 'API_SERVER_URL_MALL', RELEASE_API_SERVER_URL_MALL
-        signingConfig signingConfigs.signingConfig
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                includeCompileClasspath true
-                arguments = [testOption: "app"]
-            }
-        }
-
+        versionName "1.0.14"
+        versionCode 14
     }
 
 
     buildTypes {
         release {
-            buildConfigField 'String', 'API_SERVER_URL', RELEASE_API_SERVER_URL
-            buildConfigField 'String', 'API_SERVER_URL_MALL', RELEASE_API_SERVER_URL_MALL
-            buildConfigField 'String', 'IM_SERVER_HOST', RELEASE_IM_SERVER_HOST
-            buildConfigField 'int', 'IM_SERVER_PORT', RELEASE_IM_SERVER_PORT
-            buildConfigField "boolean", "LEO_DEBUG", RELEASE_LEO_DEBUG
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
+            minifyEnabled false
+            zipAlignEnabled false
+            signingConfig = signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
-            buildConfigField 'String', 'API_SERVER_URL', RELEASE_API_SERVER_URL
-            buildConfigField 'String', 'API_SERVER_URL_MALL', RELEASE_API_SERVER_URL_MALL
-            buildConfigField 'String', 'IM_SERVER_HOST', RELEASE_IM_SERVER_HOST
-            buildConfigField 'int', 'IM_SERVER_PORT', RELEASE_IM_SERVER_PORT
-            buildConfigField "boolean", "LEO_DEBUG", RELEASE_LEO_DEBUG
-        }
 
-//        release {
-//            minifyEnabled false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
-        abortOnError false
-    }
-
-//    android.applicationVariants.all { variant ->
-//        variant.outputs.all {
-//            outputFileName = "xinlebao_${defaultConfig.versionName}_${releaseTime()}.apk"
-//        }
+//    lintOptions {
+//        checkReleaseBuilds false
+//        abortOnError false
 //    }
 
 
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def newName
-            def timeNow
-//            def oldFile = output.outputFile
-//            def outDirectory = oldFile.parent
-            def outDirectory
-
-            if ("true".equals(IS_JENKINS)) {
-                timeNow = JENKINS_TIME
-                outDirectory = 'D:/developTools/apachetomcat8/webapps/jenkins/apk'
-                newName = 'jone-android-v' +
-                        APP_VERSION + '-' + timeNow + '-' + '.apk'
-                output.outputFileName = new File(outDirectory, newName)
-            } else {
-                timeNow = getDate()
-                if (variant.buildType.name.equals('debug')) {
-                    newName = "jone-android-v${APP_VERSION}-debug.apk"
-                } else {
-                    newName = 'jone-android-v' +
-                            APP_VERSION + '-' + timeNow + '-' + '.apk'
-                }
-                output.outputFileName = new File(newName)
-            }
-
-        }
-    }
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            def newName
+//            def timeNow
+////            def oldFile = output.outputFile
+////            def outDirectory = oldFile.parent
+//            def outDirectory
+//
+//            if ("true".equals(IS_JENKINS)) {
+//                timeNow = JENKINS_TIME
+//                outDirectory = 'D:/developTools/apachetomcat8/webapps/jenkins/apk'
+//                newName = 'jone-android-v' +
+//                        APP_VERSION + '-' + timeNow + '-' + '.apk'
+//                output.outputFileName = new File(outDirectory, newName)
+//            } else {
+//                timeNow = getDate()
+//                if (variant.buildType.name.equals('debug')) {
+//                    newName = "jone-android-v${APP_VERSION}-debug.apk"
+//                } else {
+//                    newName = 'jone-android-v' +
+//                            APP_VERSION + '-' + timeNow + '-' + '.apk'
+//                }
+//                output.outputFileName = new File(newName)
+//            }
+//
+//        }
+//    }
 
 
     compileOptions {
@@ -138,6 +99,7 @@ dependencies {
     //    compile project(':baselib')
     annotationProcessor project(":TestAnnotation-complier")
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation files('lib/inovelSocketLib.jar')
 }
 
 

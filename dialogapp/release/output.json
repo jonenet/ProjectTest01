@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":14},"path":"jone-android-v2.4.0-201805220955-.apk","properties":{"packageId":"com.example.dragger.dialogapp","split":"","minSdkVersion":"15"}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":14,"versionName":"1.0.14","enabled":true,"outputFile":"dialogapp-release.apk","fullName":"release","baseName":"release"},"path":"dialogapp-release.apk","properties":{}}]

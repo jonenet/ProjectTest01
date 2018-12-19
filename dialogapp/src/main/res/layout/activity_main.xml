@@ -11,14 +11,39 @@
         android:orientation="vertical"
         android:background="@android:color/holo_orange_dark">
 
-        <TextView
-            android:id="@+id/bottomsheet_fragment_button"
+        <Button
+            android:id="@+id/btn_power_dialog"
             android:layout_width="200dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:layout_gravity="center_horizontal|top"
             android:layout_marginBottom="16dp"
-            android:text="show" />
+            android:text="power_dialog" />
+
+        <Button
+            android:id="@+id/btn_reboot"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="16dp"
+            android:text="reboot" />
+        <Button
+            android:id="@+id/btn_shotdown"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="16dp"
+            android:text="shotdown" />
+        <Button
+            android:id="@+id/btn_screen_off"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginBottom="16dp"
+            android:text="screen_off" />
 
     </LinearLayout>
 
