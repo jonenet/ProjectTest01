@@ -1,51 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="500dp"
-        android:orientation="vertical"
-        android:background="@android:color/holo_orange_dark">
+    <Button
+        android:id="@+id/btn_add"
+        android:text="tianjia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/btn_power_dialog"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="16dp"
-            android:text="power_dialog" />
-
-        <Button
-            android:id="@+id/btn_reboot"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="16dp"
-            android:text="reboot" />
-        <Button
-            android:id="@+id/btn_shotdown"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="16dp"
-            android:text="shotdown" />
-        <Button
-            android:id="@+id/btn_screen_off"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:layout_gravity="center_horizontal|top"
-            android:layout_marginBottom="16dp"
-            android:text="screen_off" />
-
-    </LinearLayout>
+    <ListView
+        android:id="@+id/rv_recycler"
+        android:layout_width="match_parent"
+        android:divider="#00000000"
+        android:dividerHeight="0px"
+        android:layoutAnimation="@anim/navagation_listview_anim2"
+        android:layout_height="match_parent" />
 
 
-</RelativeLayout>
+</FrameLayout>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.dragger.dialogapp"
-    android:sharedUserId="android.uid.system">
+    package="com.example.dragger.dialogapp">
 
 
     <uses-permission android:name="android.permission.SHUTDOWN" />
@@ -21,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".NextActivity" />
+        <activity android:name=".TwoActivity" />
     </application>
 
 </manifest>

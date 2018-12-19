@@ -1,193 +1,59 @@
 package com.example.dragger.dialogapp;
 
-import android.app.Activity;
-import android.app.Instrumentation;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.example.dragger.dialogapp.widget.DialogManager;
-import com.inovel.inovelsocketlib.ClientSocket;
-import com.inovel.inovelsocketlib.SocketManager;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.json.JSONObject;
-
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private long mCurrentKeyTime;
-    private boolean mIsConnect;
+    private List<String> mList;
+    private ArrayAdapter<String> mArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        startActivity(new Intent(this, NextActivity.class).putExtra("text", "123456789"));
-        findViewById(R.id.btn_power_dialog).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long clickTime = System.currentTimeMillis();
-                if (Math.abs(clickTime - mCurrentKeyTime) < 1000) {
-                    Toast.makeText(getApplicationContext(), "shot_down", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mCurrentKeyTime = clickTime;
-                if (isScreenOn()) {
-                    DialogManager.newInstance().show(MainActivity.this, new DialogManager.PowerDialog.OnDialogItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            switch (position) {
-                                case DialogManager.PowerDialog.CLICK_SHOT_DOWN:
-                                    shotDown();
-                                    break;
-                                case DialogManager.PowerDialog.CLICK_SCREEN_OFF:
-                                    screenOffOrOn();
-                                    break;
-                                case DialogManager.PowerDialog.CLICK_RESTART:
-                                    reboot();
-                                    break;
-                            }
-                        }
-                    });
-                } else {
-                    screenOffOrOn();
-                }
+                mArrayAdapter.notifyDataSetChanged();
             }
         });
-
-
-        findViewById(R.id.btn_reboot).setOnClickListener(new View.OnClickListener() {
+        ListView rvRecycler = findViewById(R.id.rv_recycler);
+        mList = new ArrayList<>();
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mList.add("1111111111111111");
+        mArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mList) {
+            @NonNull
             @Override
-            public void onClick(View v) {
-                connectANVServer();
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                return super.getView(position, convertView, parent);
             }
-        });
-
-        findViewById(R.id.btn_shotdown).
-
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(mIsConnect){
-                            setScreenState(0);
-                        }
-                    }
-                });
-
-        findViewById(R.id.btn_screen_off).
-
-                setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(mIsConnect){
-                            setScreenState(1);
-                        }
-                    }
-                });
-    }
-
-    private void connectANVServer() {
-        SocketManager.instance().createSocket()
-                .setConnectCallback(new ClientSocket.IConnectCallback() {
-                    @Override
-                    public void onConnected() {
-                        mIsConnect = true;
-                        Toast.makeText(MainActivity.this, "onConnected", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onDisconnected() {
-                        mIsConnect = false;
-                        Toast.makeText(MainActivity.this, "onDisconnected", Toast.LENGTH_SHORT).show();
-                    }
-                }).setReceiveCallback(new ClientSocket.IReceiveCallback() {
-            @Override
-            public void onResult(JSONObject result) {//接收socket server端发回的消息
-                final String methodId = result.optString("methodId");
-                String msg = result.optString("msg");
-
-                if (TextUtils.equals(methodId, "SetScreenState")) {
-                    if (TextUtils.equals(msg, "success")) {
-                        //设置开关屏成功
-                    } else {
-                        //设置开关屏失败
-                    }
-                } else if (TextUtils.equals(methodId, "Switch3D")) {
-                    if (TextUtils.equals(msg, "success")) {
-                        //切换3d成功
-                    } else {
-                        //切换3d失败
-                    }
-                }
-            }
-
-            @Override
-            public void onError(String s) {
-                System.out.println("S = "+s);
-            }
-        }).connectServer();
-    }
-
-    private void shotDown() {
-        Intent i = new Intent("android.intent.action.ACTION_REQUEST_SHUTDOWN");
-        i.putExtra("android.intent.extra.KEY_CONFIRM", false);
-        startActivity(i);
-    }
-
-    private void reboot() {
-        Intent i = new Intent("android.intent.action.REBOOT");
-        // 立即重启：1
-        i.putExtra("nowait", 1);
-        // 重启次数：1
-        i.putExtra("interval", 1);
-        // 不出现弹窗：0
-        i.putExtra("window", 0);
-        startActivity(i);
-    }
-
-    private void screenOffOrOn() {
-//        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-//        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TAG");
-//        wakeLock.acquire();
-//        new Handler().postDelayed(new Runnable(){
-//            public void run(){
-//                wakeLock.release();
-//            }
-//        }, 10*1000);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Instrumentation mInst = new Instrumentation();
-                mInst.sendKeyDownUpSync(KeyEvent.KEYCODE_POWER);
-            }
-        }).start();
+        };
+        rvRecycler.setAdapter(mArrayAdapter);
     }
 
 
-    public void setScreenState(int state) {
-        SocketManager.instance()
-                .createSocket()
-                .setMethodId("SetScreenState")
-                .setParameter("state", state)//0是关，1是开
-                .send();
-    }
-
-
-    public boolean isScreenOn() {
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        //true为打开，false为关闭
-        return powerManager.isScreenOn();
-    }
-
-
-
-
-//    public void showPopWindow(final View view, final List<String> list) {
+//    public void showPopWindow(final View view, final List<String> mList) {
 //        PopupWindow popupWindow = new PopupWindow();
 //        View contentView = LayoutInflater.from(MainActivity.this).inflate(R.layout.layout_popup_content, null, false);
 //        RecyclerView rvPopup = contentView.findViewById(R.id.rv_popup);
@@ -208,12 +74,12 @@ public class MainActivity extends Activity {
 //
 //            @Override
 //            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//                ((TextView) holder.itemView).setText(list.get(position));
+//                ((TextView) holder.itemView).setText(mList.get(position));
 //            }
 //
 //            @Override
 //            public int getItemCount() {
-//                return list.size();
+//                return mList.size();
 //            }
 //
 //        };
