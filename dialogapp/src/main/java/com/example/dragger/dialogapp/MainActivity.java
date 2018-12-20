@@ -1,22 +1,29 @@
 package com.example.dragger.dialogapp;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private List<String> mList;
-    private ArrayAdapter<String> mArrayAdapter;
+    private RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
+    private SlideInLeftAnimationAdapter mSlideInRightAnimationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,31 +32,67 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mArrayAdapter.notifyDataSetChanged();
+                startActivity(new Intent(MainActivity.this, TwoActivity.class));
             }
         });
-        ListView rvRecycler = findViewById(R.id.rv_recycler);
-        mList = new ArrayList<>();
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mList.add("1111111111111111");
-        mArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mList) {
-            @NonNull
+        findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
             @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                return super.getView(position, convertView, parent);
+            public void onClick(View v) {
+//                int posotion = mList.size() - 1;
+                mList.clear();
+                mAdapter.notifyDataSetChanged();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        List<String> temp = new ArrayList<>();
+                        temp.add("1111111111111111");
+                        temp.add("1111111111111111");
+                        temp.add("1111111111111111");
+                        temp.add("1111111111111111");
+                        temp.add("1111111111111111");
+                        temp.add("1111111111111111");
+                        mList.addAll(temp);
+                        mAdapter.notifyItemRangeInserted(mList.size() - temp.size(), mList.size());
+                    }
+                }, 300);
+
+            }
+        });
+
+        RecyclerView rvRecycler = findViewById(R.id.rv_recycler);
+        mList = new ArrayList<>();
+        mAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+            @Override
+            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                TextView tv = new TextView(parent.getContext());
+                tv.setGravity(Gravity.CENTER_VERTICAL);
+                tv.setPadding(10, 10, 10, 10);
+                tv.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                tv.setTextSize(20);
+                return new RecyclerView.ViewHolder(tv) {
+                };
+            }
+
+            @Override
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+                ((TextView) holder.itemView).setText(mList.get(position));
+            }
+
+            @Override
+            public int getItemCount() {
+                return mList.size();
             }
         };
-        rvRecycler.setAdapter(mArrayAdapter);
+
+        rvRecycler.setLayoutManager(new LinearLayoutManager(this));
+        SlideInRightAnimator slideInLeftAnimator = new SlideInRightAnimator();
+        slideInLeftAnimator.setAddDuration(500);
+        slideInLeftAnimator.setRemoveDuration(500);
+        rvRecycler.setItemAnimator(slideInLeftAnimator);
+        rvRecycler.setAdapter(mAdapter);
+//        rvRecycler.setAdapter(mSlideInRightAnimationAdapter);
     }
 
 

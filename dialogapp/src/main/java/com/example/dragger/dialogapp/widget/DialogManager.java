@@ -4,13 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 
 import com.example.dragger.dialogapp.R;
+
+import androidx.annotation.NonNull;
 
 /**
  * Desc: TODO

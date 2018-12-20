@@ -1,8 +1,13 @@
 package com.example.dragger.dialogapp;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import com.example.dragger.dialogapp.fragment.MenuFragment;
+
+import androidx.annotation.Nullable;
 
 /**
  * Desc: TODO
@@ -19,10 +24,17 @@ public class TwoActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two);
-
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        MenuFragment menuFragment = new MenuFragment();
+        fragmentTransaction.replace(R.id.fl_content, menuFragment);
+        fragmentTransaction.commit();
+    }
 }
 
 //    private long mCurrentKeyTime;

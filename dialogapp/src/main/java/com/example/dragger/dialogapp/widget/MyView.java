@@ -1,9 +1,10 @@
 package com.example.dragger.dialogapp.widget;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by ex-zhoulai on 2018/5/7.
