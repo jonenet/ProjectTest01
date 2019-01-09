@@ -8,9 +8,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/TestAnnotation" />
-            <option value="$PROJECT_DIR$/TestAnnotation-complier" />
-            <option value="$PROJECT_DIR$/annotationdemo" />
             <option value="$PROJECT_DIR$/dialogapp" />
           </set>
         </option>

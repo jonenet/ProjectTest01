@@ -1,5 +1,6 @@
 package com.example.dragger.dialogapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,14 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import jp.wasabeef.recyclerview.adapters.SlideInLeftAnimationAdapter;
-import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -23,76 +26,21 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private List<String> mList;
     private RecyclerView.Adapter<RecyclerView.ViewHolder> mAdapter;
-    private SlideInLeftAnimationAdapter mSlideInRightAnimationAdapter;
+//    private SlideInLeftAnimationAdapter mSlideInRightAnimationAdapter;
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startService(new Intent(this,RestartService.class).setPackage(getPackageName()));
         findViewById(R.id.btn_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, TwoActivity.class));
             }
         });
-        findViewById(R.id.btn_clear).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                int posotion = mList.size() - 1;
-                mList.clear();
-                mAdapter.notifyDataSetChanged();
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        List<String> temp = new ArrayList<>();
-                        temp.add("1111111111111111");
-                        temp.add("1111111111111111");
-                        temp.add("1111111111111111");
-                        temp.add("1111111111111111");
-                        temp.add("1111111111111111");
-                        temp.add("1111111111111111");
-                        mList.addAll(temp);
-                        mAdapter.notifyItemRangeInserted(mList.size() - temp.size(), mList.size());
-                    }
-                }, 300);
-
-            }
-        });
-
-        RecyclerView rvRecycler = findViewById(R.id.rv_recycler);
-        mList = new ArrayList<>();
-        mAdapter = new RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-            @Override
-            public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                TextView tv = new TextView(parent.getContext());
-                tv.setGravity(Gravity.CENTER_VERTICAL);
-                tv.setPadding(10, 10, 10, 10);
-                tv.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                tv.setTextSize(20);
-                return new RecyclerView.ViewHolder(tv) {
-                };
-            }
-
-            @Override
-            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-                ((TextView) holder.itemView).setText(mList.get(position));
-            }
-
-            @Override
-            public int getItemCount() {
-                return mList.size();
-            }
-        };
-
-        rvRecycler.setLayoutManager(new LinearLayoutManager(this));
-        SlideInRightAnimator slideInLeftAnimator = new SlideInRightAnimator();
-        slideInLeftAnimator.setAddDuration(500);
-        slideInLeftAnimator.setRemoveDuration(500);
-        rvRecycler.setItemAnimator(slideInLeftAnimator);
-        rvRecycler.setAdapter(mAdapter);
-//        rvRecycler.setAdapter(mSlideInRightAnimationAdapter);
     }
 
 

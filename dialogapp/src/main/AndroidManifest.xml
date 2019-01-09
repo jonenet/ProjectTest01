@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".NextActivity" />
         <activity android:name=".TwoActivity" />
+
+        <service android:name=".RestartService" />
     </application>
 
 </manifest>
