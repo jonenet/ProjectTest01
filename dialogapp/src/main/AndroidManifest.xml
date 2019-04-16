@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dragger.dialogapp">
 
+    <permission android:name="android.permission.READ_FRAME_BUFFER" />
 
     <application
         android:allowBackup="true"
@@ -12,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name=".constraintLayoutTest.ConstraintLayoutActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,9 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".NextActivity" />
-        <activity android:name=".TwoActivity" />
-
-        <service android:name=".RestartService" />
+        <!--<activity android:name=".constraintLayoutTest.ConstraintLayoutActivity" />-->
+        <!--<activity android:name=".TwoActivity" />-->
     </application>
 
 </manifest>

@@ -2,7 +2,7 @@ package com.example.projecttest01;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.example.projecttest01.coreapi.Fun;
 import com.example.projecttest01.coreapi.MyMapObserver;

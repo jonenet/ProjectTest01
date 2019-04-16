@@ -1,13 +1,23 @@
 package com.example.dragger.dialogapp;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.example.dragger.dialogapp.fragment.MenuFragment;
+import com.example.dragger.dialogapp.widget.UnderLineTextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Desc: TODO
@@ -24,18 +34,76 @@ public class TwoActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_two);
+        RecyclerView rvRecycler = findViewById(R.id.rv_recycler);
+
+        List<String> titleList = new ArrayList<>();
+        titleList.add("FIRST");
+        titleList.add("SECOND");
+        titleList.add("THIRD");
+        titleList.add("FIVE");
+        GridLayoutManager layout = new GridLayoutManager(this, 4);
+        rvRecycler.setLayoutManager(layout);
+        rvRecycler.setAdapter(new RecyclerView.Adapter<Holder>() {
+            @NonNull
+            @Override
+            public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_title_item, parent, false));
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull Holder holder, int position) {
+                holder.itemView.setTag(position);
+                if(position == 0){
+                    holder.ivIcon.setVisibility(View.GONE);
+                    holder.tvUnderLine.setVisibility(View.VISIBLE);
+                }else{
+                    holder.ivIcon.setVisibility(View.VISIBLE);
+                    holder.tvUnderLine.setVisibility(View.GONE);
+                }
+                holder.itemView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View v, boolean hasFocus) {
+                        if(hasFocus){
+                            holder.ivIcon.setVisibility(View.GONE);
+                            holder.tvUnderLine.setVisibility(View.VISIBLE);
+                        }else{
+                            holder.ivIcon.setVisibility(View.VISIBLE);
+                            holder.tvUnderLine.setVisibility(View.GONE);
+                        }
+                    }
+                });
+                holder.tvUnderLine.setText(titleList.get(position));
+
+            }
+
+            @Override
+            public int getItemCount() {
+                return titleList.size();
+            }
+        });
     }
 
+
+    static class Holder extends RecyclerView.ViewHolder {
+
+        UnderLineTextView tvUnderLine;
+        ImageView ivIcon;
+
+        public Holder(@NonNull View itemView) {
+            super(itemView);
+            tvUnderLine = itemView.findViewById(R.id.tv_underline);
+            ivIcon = itemView.findViewById(R.id.iv_icon);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onResume() {
         super.onResume();
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        MenuFragment menuFragment = new MenuFragment();
-        fragmentTransaction.replace(R.id.fl_content, menuFragment);
-        fragmentTransaction.commit();
+
     }
 }
+
 
 //    private long mCurrentKeyTime;
 //    private boolean mIsConnect;
