@@ -2,11 +2,11 @@ package com.example.projecttest01;
 
 import android.app.Activity;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 
 import com.example.projecttest01.coreapi.Fun;
 import com.example.projecttest01.coreapi.MyMapObserver;
 
+import androidx.annotation.Nullable;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;

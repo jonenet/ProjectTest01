@@ -13,14 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".constraintLayoutTest.ConstraintLayoutActivity">
+        <activity android:name=".testActivity.ConstraintLayoutTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NextActivity" />
+        <activity android:name=".myLifeRecycler.LifeRecyclerActivity" />
+        <!--<activity android:name=".testActivity.ConstraintLayoutTest" />-->
+        <!--<activity android:name=".NextActivity" />-->
         <!--<activity android:name=".constraintLayoutTest.ConstraintLayoutActivity" />-->
         <!--<activity android:name=".TwoActivity" />-->
     </application>

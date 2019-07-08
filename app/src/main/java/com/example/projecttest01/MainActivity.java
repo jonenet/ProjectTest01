@@ -2,7 +2,6 @@ package com.example.projecttest01;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,17 +13,12 @@ import com.example.projecttest01.dagger.MainModule;
 import com.example.projecttest01.dagger.TestDaggerBean;
 import com.example.projecttest01.subjectTest.MoreReactiveList;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.functions.Function;
 import io.reactivex.subjects.ReplaySubject;
 
 public class MainActivity extends AppCompatActivity {

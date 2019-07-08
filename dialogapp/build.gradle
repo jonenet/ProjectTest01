@@ -1,10 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 def getDate() {
     def date = new Date()
     def formattedDate = date.format('yyyyMMddHHmm')
     return formattedDate
 }
+
 
 
 android {
@@ -103,14 +106,34 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
     implementation 'com.android.support:design:28.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    compile project(':TestAnnotation')
+//    compile project(':TestAnnotation')
     //    compile project(':baselib')
     annotationProcessor project(":TestAnnotation-complier")
     implementation files('lib/inovelSocketLib.jar')
     implementation project(':animators')
+
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navigationVersion"
+    // liveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
+    // viewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+    implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
+
+    // room
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+
+    androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
+
+    // paging
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
+}
+repositories {
+    mavenCentral()
 }
 
 

@@ -1,1 +1,1 @@
-include ':annotationdemo', ':TestAnnotation', ':TestAnnotation-complier', ':dialogapp', ':animators'
+include ':TestAnnotation', ':TestAnnotation-complier', ':dialogapp', ':animators', ':javatest'

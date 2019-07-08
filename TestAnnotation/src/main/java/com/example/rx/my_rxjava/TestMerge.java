@@ -1,12 +1,5 @@
 package com.example.rx.my_rxjava;
 
-import org.reactivestreams.Publisher;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.FlowableEmitter;
@@ -16,14 +9,9 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 
 /**
- * 作者:      周来
+ * 作者:
  * 包名:      com.example.rx.my_rxjava
  * 工程名:    ProjectTest01
  * 时间:      2018/11/29
