@@ -32,6 +32,8 @@ public class LifeRecyclerActivity extends AppCompatActivity {
         });
         Lifecycle lifecycle = getLifecycle();
         lifecycle.addObserver(myObserver);
+
+
     }
 
 

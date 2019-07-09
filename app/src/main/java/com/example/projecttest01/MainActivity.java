@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.projecttest01.annotation.AnnoGender;
 import com.example.projecttest01.dagger.AnimalBean;
 import com.example.projecttest01.dagger.DaggerMainComponent;
@@ -15,7 +17,6 @@ import com.example.projecttest01.subjectTest.MoreReactiveList;
 
 import javax.inject.Inject;
 
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

@@ -5,11 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:layout_width="match_parent"
+        android:id="@+id/start_local"
+        android:layout_height="wrap_content" />
+    <Button
+        app:layout_constraintTop_toBottomOf="@+id/start_local"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:background="#ff0"
+        android:focusable="true"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/guide_one"
         app:layout_constraintStart_toStartOf="parent"
