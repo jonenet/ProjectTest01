@@ -6,7 +6,6 @@ import android.util.LruCache;
 import com.example.baselib.base.AutowiredService;
 import com.example.baselib.base.ISyringe;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
