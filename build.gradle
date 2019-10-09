@@ -31,11 +31,12 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "http://192.168.30.253:8081/repository/android-release/" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
 }
 
-ext{
+ext {
     butterknifeVersion = '8.6.+'
     okgo = '3.0.4'
     reactiveStreamsVersion = '1.0.2'

@@ -26,6 +26,7 @@
     </style>
 
 
+
     <declare-styleable name="UnderlinedTextView" >
         <attr name="underlineWidth" format="dimension" />
         <attr name="underlineColor" format="color" />

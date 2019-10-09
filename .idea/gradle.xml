@@ -8,11 +8,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/TestAnnotation" />
-            <option value="$PROJECT_DIR$/TestAnnotation-complier" />
-            <option value="$PROJECT_DIR$/animators" />
+            <option value="$PROJECT_DIR$/baselib" />
             <option value="$PROJECT_DIR$/dialogapp" />
-            <option value="$PROJECT_DIR$/javatest" />
+            <option value="$PROJECT_DIR$/hdmicec" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

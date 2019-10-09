@@ -1,1 +1,1 @@
-include ':TestAnnotation', ':TestAnnotation-complier', ':dialogapp', ':animators', ':javatest'
+include  ':hdmicec',':baselib',':dialogapp'

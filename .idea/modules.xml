@@ -3,11 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ProjectTest01.iml" filepath="$PROJECT_DIR$/ProjectTest01.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TestAnnotation/TestAnnotation.iml" filepath="$PROJECT_DIR$/TestAnnotation/TestAnnotation.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TestAnnotation-complier/TestAnnotation-complier.iml" filepath="$PROJECT_DIR$/TestAnnotation-complier/TestAnnotation-complier.iml" />
-      <module fileurl="file://$PROJECT_DIR$/animators/animators.iml" filepath="$PROJECT_DIR$/animators/animators.iml" />
+      <module fileurl="file://$PROJECT_DIR$/baselib/baselib.iml" filepath="$PROJECT_DIR$/baselib/baselib.iml" />
       <module fileurl="file://$PROJECT_DIR$/dialogapp/dialogapp.iml" filepath="$PROJECT_DIR$/dialogapp/dialogapp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/javatest/javatest.iml" filepath="$PROJECT_DIR$/javatest/javatest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hdmicec/hdmicec.iml" filepath="$PROJECT_DIR$/hdmicec/hdmicec.iml" />
     </modules>
   </component>
 </project>
