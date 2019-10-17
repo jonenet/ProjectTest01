@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.MainActivity">
+        <activity android:name=".view.testActivity.RadioGroupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,13 +27,13 @@
         </activity>
         <activity android:name=".rx.myLifeRecycler.LifeRecyclerActivity" />
         <activity
-            android:name=".view.testActivity.FragmentProxyActivity"
+            android:name=".view.testActivity.poxy.FragmentProxyActivity"
             android:theme="@style/dialog"
             android:launchMode="singleInstance" />
         <!--<activity android:name=".testActivity.ConstraintLayoutTest" />-->
-        <!--<activity android:name=".NextActivity" />-->
+        <!--<activity android:name=".SnapHelperActivity" />-->
         <!--<activity android:name=".constraintLayoutTest.ConstraintLayoutActivity" />-->
-        <!--<activity android:name=".TwoActivity" />-->
+        <!--<activity android:name=".UnderLineActivity" />-->
 
         <service android:name=".service.XiriCommandService">
             <intent-filter>

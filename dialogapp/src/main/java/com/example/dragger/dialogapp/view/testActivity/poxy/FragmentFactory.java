@@ -1,4 +1,4 @@
-package com.example.dragger.dialogapp.view.testActivity;
+package com.example.dragger.dialogapp.view.testActivity.poxy;
 
 /**
  * Desc: TODO

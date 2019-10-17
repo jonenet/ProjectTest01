@@ -153,6 +153,7 @@ dependencies {
     implementation files('lib\\XiriScene.jar')
 
     implementation 'com.lunzn:xiriparse:latest.release'
+    implementation 'com.alibaba:fastjson:1.2.62'
 
 }
 repositories {

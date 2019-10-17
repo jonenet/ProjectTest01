@@ -1,4 +1,4 @@
-package com.example.dragger.dialogapp.view;
+package com.example.dragger.dialogapp.view.testActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.dragger.dialogapp.R;
-import com.example.dragger.dialogapp.view.testActivity.FragmentProxyActivity;
+import com.example.dragger.dialogapp.view.testActivity.poxy.FragmentProxyActivity;
 import com.gala.tv.voice.VoiceClient;
 import com.gala.tv.voice.VoiceEvent;
 import com.gala.tv.voice.VoiceEventFactory;

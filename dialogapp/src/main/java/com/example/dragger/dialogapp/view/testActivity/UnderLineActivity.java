@@ -1,4 +1,4 @@
-package com.example.dragger.dialogapp.view;
+package com.example.dragger.dialogapp.view.testActivity;
 
 import android.app.Activity;
 import android.os.Build;
@@ -28,7 +28,7 @@ import java.util.List;
  * ProjectName: ProjectTest01
  * Date: 2018/12/19 15:52
  */
-public class TwoActivity extends Activity {
+public class UnderLineActivity extends Activity {
 
 
     @Override
@@ -119,7 +119,7 @@ public class TwoActivity extends Activity {
 //                }
 //                mCurrentKeyTime = clickTime;
 //                if (isScreenOn()) {
-//                    DialogManager.newInstance().show(TwoActivity.this, new DialogManager.PowerDialog.OnDialogItemClickListener() {
+//                    DialogManager.newInstance().show(UnderLineActivity.this, new DialogManager.PowerDialog.OnDialogItemClickListener() {
 //                        @Override
 //                        public void onItemClick(int position) {
 //                            switch (position) {
@@ -178,13 +178,13 @@ public class TwoActivity extends Activity {
 //                    @Override
 //                    public void onConnected() {
 //                        mIsConnect = true;
-//                        Toast.makeText(TwoActivity.this, "onConnected", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(UnderLineActivity.this, "onConnected", Toast.LENGTH_SHORT).show();
 //                    }
 //
 //                    @Override
 //                    public void onDisconnected() {
 //                        mIsConnect = false;
-//                        Toast.makeText(TwoActivity.this, "onDisconnected", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(UnderLineActivity.this, "onDisconnected", Toast.LENGTH_SHORT).show();
 //                    }
 //                }).setReceiveCallback(new ClientSocket.IReceiveCallback() {
 //            @Override

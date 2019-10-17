@@ -1,4 +1,4 @@
-package com.example.dragger.dialogapp.view;
+package com.example.dragger.dialogapp.view.testActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.example.dragger.dialogapp.widget.MyAdapter;
  * Created by ex-zhoulai on 2018/4/28.
  */
 
-public class NextActivity extends AppCompatActivity {
+public class SnapHelperActivity extends AppCompatActivity {
 
 //    @TestAnnoAware
 //    public String text;

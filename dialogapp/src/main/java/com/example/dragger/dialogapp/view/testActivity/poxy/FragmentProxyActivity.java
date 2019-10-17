@@ -1,4 +1,4 @@
-package com.example.dragger.dialogapp.view.testActivity;
+package com.example.dragger.dialogapp.view.testActivity.poxy;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.dragger.dialogapp.R;
+import com.example.dragger.dialogapp.view.testActivity.poxy.AirFragment;
+import com.example.dragger.dialogapp.view.testActivity.poxy.BaseFragment;
+import com.example.dragger.dialogapp.view.testActivity.poxy.SwitchFragment;
 
 import java.util.Arrays;
 import java.util.HashMap;
