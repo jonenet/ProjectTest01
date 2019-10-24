@@ -312,10 +312,17 @@ public class ExampleUnitTest {
             Method getName = aClass.getDeclaredMethod("getName");
             Object fiona = getName.invoke(jone);
             System.out.println("time = " + (System.currentTimeMillis() - time1) + "ms " + fiona);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testThread(){
+    }
+
+
+
+
 
 }

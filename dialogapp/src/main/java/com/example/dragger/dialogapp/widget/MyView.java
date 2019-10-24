@@ -2,6 +2,7 @@ package com.example.dragger.dialogapp.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -11,12 +12,14 @@ import androidx.annotation.Nullable;
  */
 
 public class MyView extends View {
+    private static final String TAG = MyView.class.getSimpleName();
+
     public MyView(Context context) {
-        super(context);
+        this(context,null);
     }
 
     public MyView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs,-1);
     }
 
     public MyView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -53,9 +56,9 @@ public class MyView extends View {
             //确定大小的情况 getMeasureSize 和 实际需要的大小  取一个大的值
             result = Math.max(contentSize, specSize);
         } else {
-            //如果是wrap_content
+            //如果是wrap_content,wrap_content 默认是match_parent的
+            Log.i(TAG,"specType =" +specType +" specSize = " +specSize);
             result = contentSize;
-
             if (specType == 1) {
                 // width
                 result += (getPaddingLeft() + getPaddingRight());
@@ -63,9 +66,9 @@ public class MyView extends View {
                 // height
                 result += (getPaddingTop() + getPaddingBottom());
             }
+            Log.i(TAG,"result = " +result);
         }
-
-        return result;
+        return MeasureSpec.makeMeasureSpec(result,specMode);
     }
 
 }

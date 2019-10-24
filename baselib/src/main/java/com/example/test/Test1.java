@@ -1,5 +1,7 @@
 package com.example.test;
 
+import java.util.concurrent.Semaphore;
+
 /**
  * Desc: TODO
  * <p>
@@ -24,6 +26,24 @@ public class Test1 {
 
     //    A5FC770B00000000011B0B0200F07017E89C3F0272863F0272863F0272863F0272863F0272863F0272863F0272863F0272863F0226823F0226823F0226823F0226823F0226823F0226823F0226823F0226823F0272863F0272863F0272863F0272863F0272863F0272863F0272863F0272863F0226823F0226823F0226823F0226823F0226823F0226823F0226823F0226823F0272863F0226823F0272863F0272863F0272863F0272863F0272863F0272863F0226823F0272863F0226823F0226823F0226823F0226823F0226823F0226823F0272863F0226823F0226823F0272863F0272863F0272863F0272863F0272863F0226823F0272863F027286F6CE
     private static long[] mHits1 = new long[4];
+    private static Semaphore semaphore;
+    private static void showLog(){
+        try {
+            semaphore.acquire();
+            System.out.println("xqxinfo 线程:"+Thread.currentThread().getName()+"执行了一个acquire请求操作");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // 线程休眠1s
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        semaphore.release();
+        System.out.println("xqxinfo 线程:"+Thread.currentThread().getName()+"执行了一个release请求操作");
+    }
+
 
     public static void main(String[] args) {
 //        for (int i = 0; i < 4; i++) {
@@ -36,6 +56,16 @@ public class Test1 {
 //            }
 //        }
 
+        semaphore = new Semaphore(5);
+
+        for (int i = 0; i < 1000; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    showLog();
+                }
+            }).start();
+        }
         System.out.println(0x30000000);
     }
 

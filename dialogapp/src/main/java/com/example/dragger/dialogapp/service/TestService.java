@@ -8,7 +8,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.dragger.dialogapp.IListener;
 import com.example.dragger.dialogapp.IMyAidlInterface;
+import com.example.dragger.dialogapp.TestBean;
 
 /**
  * Desc: TODO
@@ -26,10 +28,18 @@ public class TestService extends Service {
     public IBinder onBind(Intent intent) {
         Log.i(TAG, "onBind");
         return new IMyAidlInterface.Stub() {
+
+
             @Override
-            public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
+            public void send(String name, IListener iListener) throws RemoteException {
 
             }
+
+            @Override
+            public TestBean getBean() throws RemoteException {
+                return null;
+            }
+
         };
     }
 

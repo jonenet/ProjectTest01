@@ -1,8 +1,11 @@
 package com.example.dragger.dialogapp.view.testActivity;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -79,6 +82,11 @@ public class RadioGroupActivity extends Activity {
         }
 
         rootView.addView(radioGroup);
+        Intent intent = new Intent();
+        sendBroadcast(intent, "receiverPermission");
+
+        registerReceiver(null,new IntentFilter(),"",new Handler());
+
 
     }
 }
