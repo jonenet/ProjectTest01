@@ -1,1 +1,1 @@
-include  ':hdmicec',':baselib',':dialogapp'
+include  ':baselib',':dialogapp'

@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/ProjectTest01.iml" filepath="$PROJECT_DIR$/ProjectTest01.iml" />
       <module fileurl="file://$PROJECT_DIR$/baselib/baselib.iml" filepath="$PROJECT_DIR$/baselib/baselib.iml" />
       <module fileurl="file://$PROJECT_DIR$/dialogapp/dialogapp.iml" filepath="$PROJECT_DIR$/dialogapp/dialogapp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/hdmicec/hdmicec.iml" filepath="$PROJECT_DIR$/hdmicec/hdmicec.iml" />
     </modules>
   </component>
 </project>

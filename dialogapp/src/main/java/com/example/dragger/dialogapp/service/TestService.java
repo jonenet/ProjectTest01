@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
+import android.view.View;
 
 import com.example.dragger.dialogapp.IListener;
 import com.example.dragger.dialogapp.IMyAidlInterface;
 import com.example.dragger.dialogapp.TestBean;
+
+import androidx.annotation.Nullable;
+
 
 /**
  * Desc: TODO
@@ -28,7 +30,6 @@ public class TestService extends Service {
     public IBinder onBind(Intent intent) {
         Log.i(TAG, "onBind");
         return new IMyAidlInterface.Stub() {
-
 
             @Override
             public void send(String name, IListener iListener) throws RemoteException {

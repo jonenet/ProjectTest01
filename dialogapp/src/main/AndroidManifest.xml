@@ -36,13 +36,13 @@
         <!--<activity android:name=".constraintLayoutTest.ConstraintLayoutActivity" />-->
         <!--<activity android:name=".UnderLineActivity" />-->
 
-        <service android:name=".service.XiriCommandService">
-            <intent-filter>
-                <action android:name="com.iflytek.xiri2.app.NOTIFY" />
-                <action android:name="com.iflytek.xiri2.app.FILTER" />
-                <action android:name="tv.yuyin.self" />
-            </intent-filter>
-        </service>
+<!--        <service android:name=".service.XiriCommandService">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.iflytek.xiri2.app.NOTIFY" />-->
+<!--                <action android:name="com.iflytek.xiri2.app.FILTER" />-->
+<!--                <action android:name="tv.yuyin.self" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
         <service android:name=".service.TestService" />
     </application>
 
